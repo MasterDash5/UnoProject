@@ -1,0 +1,8 @@
+module me.masterdash5.unoproject {
+    requires javafx.controls;
+    requires javafx.fxml;
+
+
+    opens me.masterdash5.unoproject to javafx.fxml;
+    exports me.masterdash5.unoproject.view;
+}
