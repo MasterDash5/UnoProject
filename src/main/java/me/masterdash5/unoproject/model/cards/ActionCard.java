@@ -9,4 +9,8 @@ public class ActionCard implements Card {
 
     }
 
+    @Override
+    public CardColor color() {
+        return null;
+    }
 }

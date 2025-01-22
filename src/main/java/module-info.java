@@ -4,5 +4,7 @@ module me.masterdash5.unoproject {
 
 
     opens me.masterdash5.unoproject to javafx.fxml;
+    exports me.masterdash5.unoproject;
+    exports me.masterdash5.unoproject.controller;
     exports me.masterdash5.unoproject.view;
 }
