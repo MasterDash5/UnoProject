@@ -1,6 +1,7 @@
 package me.masterdash5.unoproject.model.cards;
 
 import me.masterdash5.unoproject.model.Card;
+import me.masterdash5.unoproject.model.CardAction;
 import me.masterdash5.unoproject.model.CardColor;
 
 public class NumberCard implements Card {
@@ -15,5 +16,8 @@ public class NumberCard implements Card {
 
     @Override
     public CardColor color() { return color; }
+
+    @Override
+    public CardAction action() { return null; }
 
 }

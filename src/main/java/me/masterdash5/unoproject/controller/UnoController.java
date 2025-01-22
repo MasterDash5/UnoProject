@@ -7,7 +7,9 @@ import javafx.scene.control.Button;
 
 
 public class UnoController {
+
     @FXML
     public void initialize() {
     }
+
 }

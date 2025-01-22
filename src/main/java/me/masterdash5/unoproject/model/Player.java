@@ -1,10 +1,11 @@
 package me.masterdash5.unoproject.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
-    ArrayList<Card> hand;
-    Card selectedCard;
 
+    private List<Card> hand;
+    private Card selectedCard;
 
 }

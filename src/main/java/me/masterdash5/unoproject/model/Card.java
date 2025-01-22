@@ -4,4 +4,6 @@ public interface Card {
 
     CardColor color();
 
+    CardAction action();
+
 }
