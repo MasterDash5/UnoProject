@@ -1,23 +1,23 @@
 package me.masterdash5.unoproject.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.Stack;
 
 public class Deck {
 
-    private List<Card> deck = new ArrayList<>(),
-            disgarded = new ArrayList<>();
+    private Stack<Card> deck = new Stack<>(),
+            discarded = new Stack<>();
 
     public Deck() {
         // create card instances.
     }
 
-    public void refill() {
-        List<Card> sublist = disgarded.subList(0, disgarded.size());
 
-        disgarded.removeAll(sublist);
-        deck.addAll(sublist);
+    public void refill() {
+        Card newDiscard = discarded.pop();
+        deck.addAll(discarded);
+        discarded.push(newDiscard);
+        shuffle();
     }
 
     public void shuffle() {
