@@ -1,6 +1,5 @@
 package me.masterdash5.unoproject.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
