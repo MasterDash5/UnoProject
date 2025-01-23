@@ -18,7 +18,7 @@ public class JavaFXLauncher extends Application {
     public void start(Stage stage) throws IOException {
         URL url = getClass().getResource("/javafx/Uno.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Scene scene = new Scene(fxmlLoader.load(), 751, 525);
+        Scene scene = new Scene(fxmlLoader.load(), 779, 712);
         stage.setTitle("Uno");
         stage.setScene(scene);
         stage.show();

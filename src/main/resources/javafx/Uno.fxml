@@ -1,11 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="751.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="712.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="callUno" layoutX="651.0" layoutY="343.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Call UNO" />
+      <Button fx:id="callUnobtn" layoutX="675.0" layoutY="488.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Call UNO" />
+      <ImageView fx:id="playerhand5img" fitHeight="204.0" fitWidth="121.0" layoutX="554.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="playerhand4img" fitHeight="204.0" fitWidth="121.0" layoutX="433.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="playerhand3img" fitHeight="204.0" fitWidth="121.0" layoutX="312.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="playerhand2img" fitHeight="204.0" fitWidth="121.0" layoutX="191.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="playerhand1img" fitHeight="204.0" fitWidth="121.0" layoutX="74.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2hand1img" fitHeight="204.0" fitWidth="121.0" layoutX="74.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2hand2img" fitHeight="204.0" fitWidth="121.0" layoutX="195.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2hand3img" fitHeight="204.0" fitWidth="121.0" layoutX="312.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2hand4img" fitHeight="204.0" fitWidth="121.0" layoutX="433.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2hand5img" fitHeight="204.0" fitWidth="121.0" layoutX="554.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="deckimg" fitHeight="204.0" fitWidth="121.0" layoutX="14.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/back.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Playedcard" fitHeight="185.0" fitWidth="156.0" layoutX="337.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/wild.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="leftarrow" layoutX="256.0" layoutY="363.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="62.0" text="&lt;">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <Button fx:id="rightarrow" layoutX="494.0" layoutY="363.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="62.0" text="&gt;">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <Button fx:id="swapplayerbtn" layoutX="675.0" layoutY="218.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" text="Swap Players" />
+      <Button fx:id="skipturnbtn" layoutX="675.0" layoutY="415.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" text="Skip Turn" />
    </children>
 </Pane>
