@@ -14,6 +14,8 @@ public class NumberCard implements Card {
         this.number = number;
     }
 
+    public int number() { return number; }
+
     @Override
     public CardColor color() { return color; }
 

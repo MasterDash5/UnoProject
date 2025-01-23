@@ -7,8 +7,8 @@ import java.util.Stack;
 
 public class Deck {
 
-    private Stack<Card> deck = new Stack<>(),
-            discarded = new Stack<>();
+    private Stack<Card> deck = new Stack<>();
+    private Stack<Card> discarded = new Stack<>();
 
     public Deck() {
         for (CardColor color : CardColor.values()) {
@@ -34,6 +34,9 @@ public class Deck {
         }
     }
 
+    public Card draw() { return deck.pop(); }
+
+    public void discard(Card card) { discarded.push(card); }
 
     public void refill() {
         Card newDiscard = discarded.pop();
@@ -42,8 +45,13 @@ public class Deck {
         shuffle();
     }
 
-    public void shuffle() {
-        Collections.shuffle(deck);
+    public void reset() {
+        deck.addAll(discarded);
+        discarded.clear();
     }
+
+    public void shuffle() { Collections.shuffle(deck); }
+
+    public Card getTopDiscard() { return discarded.getLast(); }
 
 }
