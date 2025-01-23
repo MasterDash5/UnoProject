@@ -7,6 +7,8 @@ import me.masterdash5.unoproject.model.Deck;
 import me.masterdash5.unoproject.model.Player;
 import me.masterdash5.unoproject.model.cards.NumberCard;
 
+import java.util.Random;
+
 public class UnoController {
 
     public static final int MAX_PLAYERS = 2;
@@ -28,7 +30,7 @@ public class UnoController {
         for (int i = 0; i < MAX_PLAYERS; i++)
             players[i] = new Player();
 
-        activePlayer = 0;
+        activePlayer = new Random().nextInt(0, MAX_PLAYERS);
     }
 
     public boolean testCard(Card card) {
@@ -45,10 +47,7 @@ public class UnoController {
     }
 
     public void swapPlayers() {
-        if (activePlayer >= MAX_PLAYERS)
-            activePlayer = 0;
-        else
-            activePlayer++;
+        activePlayer = (activePlayer + 1) % MAX_PLAYERS;
     }
 
     @FXML
