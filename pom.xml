@@ -37,5 +37,10 @@
             <version>24-ea+19</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>3.2</version>
+        </dependency>
     </dependencies>
 </project>

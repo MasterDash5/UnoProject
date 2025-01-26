@@ -1,57 +1,69 @@
 package me.masterdash5.unoproject.model;
 
-import me.masterdash5.unoproject.model.cards.NumberCard;
-
+import me.masterdash5.unoproject.model.cards.*;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Stack;
+import java.util.List;
 
 public class Deck {
+    private final List<Card> cards;
 
-    private Stack<Card> deck = new Stack<>();
-    private Stack<Card> discarded = new Stack<>();
-
+    // Constructor to initialize the deck
     public Deck() {
-        for (CardColor color : CardColor.values()) {
-            for (int i = 1; i < 20; i++)
-                deck.add(new NumberCard(color, (byte) (i % 10)));
-
-            for (int i = 0; i < 2; i++) {
-                for (CardAction action : CardAction.values()) {
-                    deck.add(new Card() {
-                        @Override
-                        public CardColor color() {
-                            if (action == CardAction.WILD || action == CardAction.DRAW4)
-                                return null;
-
-                            return color;
-                        }
-
-                        @Override
-                        public CardAction action() { return action; }
-                    });
-                }
-            }
-        }
-    }
-
-    public Card draw() { return deck.pop(); }
-
-    public void discard(Card card) { discarded.push(card); }
-
-    public void refill() {
-        Card newDiscard = discarded.pop();
-        deck.addAll(discarded);
-        discarded.push(newDiscard);
+        this.cards = new ArrayList<>();
+        initializeDeck();
         shuffle();
     }
 
-    public void reset() {
-        deck.addAll(discarded);
-        discarded.clear();
+    // Initialize the deck with all UNO cards
+    private void initializeDeck() {
+        // Add Number Cards (0-9 for each color)
+        for (CardColor color : CardColor.values()) {
+            // Add one "0" card per color
+            cards.add(new Card_Number(color, 0));
+
+            // Add two of each number card (1-9) per color
+            for (int number = 1; number <= 9; number++) {
+                cards.add(new Card_Number(color, number));
+                cards.add(new Card_Number(color, number));
+            }
+
+            // Add Action Cards (2 Draw2, Reverse, and Skip per color)
+            cards.add(new Card_Draw2(color));
+            cards.add(new Card_Draw2(color));
+            cards.add(new Card_Reverse(color));
+            cards.add(new Card_Reverse(color));
+            cards.add(new Card_Skip(color));
+            cards.add(new Card_Skip(color));
+        }
+
+        // Add Wild Cards (4 Wild and 4 Wild Draw4 cards)
+        for (int i = 0; i < 4; i++) {
+            cards.add(new Card_Wild());
+            cards.add(new Card_Wild_Draw4());
+        }
     }
 
-    public void shuffle() { Collections.shuffle(deck); }
+    // Shuffle the deck
+    public void shuffle() {
+        Collections.shuffle(cards);
+    }
 
-    public Card getTopDiscard() { return discarded.getLast(); }
+    // Draw a card from the top of the deck
+    public Card drawCard() {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException("The deck is empty!");
+        }
+        return cards.remove(cards.size() - 1); // Removes and returns the top card
+    }
 
+    // Get the remaining size of the deck
+    public int getSize() {
+        return cards.size();
+    }
+
+    // Check if the deck is empty
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
 }
