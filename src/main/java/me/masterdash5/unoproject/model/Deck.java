@@ -66,4 +66,11 @@ public class Deck {
     public boolean isEmpty() {
         return cards.isEmpty();
     }
+
+    // Reset the deck by clearing and reinitializing it
+    public void reset() {
+        cards.clear();
+        initializeDeck();
+        shuffle();
+    }
 }
