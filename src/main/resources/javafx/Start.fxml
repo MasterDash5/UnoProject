@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;"
+      xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="me.masterdash5.unoproject.controller.StartController">
+    <children>
+        <Button fx:id="playervsplayer" layoutX="58.0" layoutY="161.0" mnemonicParsing="false"
+                prefHeight="101.0" prefWidth="152.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"
+                text="Player vs Player">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="playervsbot" layoutX="389.0" layoutY="161.0" mnemonicParsing="false"
+                prefHeight="101.0" prefWidth="152.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"
+                text="Player vs Bot">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Text fill="#ecd407" layoutX="210.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="      UNO!" wrappingWidth="179.4700164794922">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Text>
+        <Button fx:id="Quitbtn" layoutX="242.0" layoutY="262.0" mnemonicParsing="false"
+                prefHeight="53.0" prefWidth="116.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"
+                text="Quit">
+            <font>
+                <Font size="31.0" />
+            </font>
+        </Button>
+    </children>
+</Pane>

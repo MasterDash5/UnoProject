@@ -6,9 +6,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="712.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="backgroundpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="712.0" prefWidth="779.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+
    <children>
-      <Button fx:id="callUnobtn" layoutX="675.0" layoutY="488.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Call UNO" />
+      <Button fx:id="callUnobtn" layoutX="675.0" layoutY="481.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="Call UNO">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
       <ImageView fx:id="playerhand5img" fitHeight="204.0" fitWidth="121.0" layoutX="554.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
@@ -69,17 +73,23 @@
             <Image url="@../assets/wild.png" />
          </image>
       </ImageView>
-      <Button fx:id="leftarrow" layoutX="256.0" layoutY="363.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="62.0" text="&lt;">
+      <Button fx:id="leftarrow" layoutX="248.0" layoutY="346.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="64.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="&lt;">
          <font>
-            <Font size="30.0" />
+            <Font size="28.0" />
          </font>
       </Button>
-      <Button fx:id="rightarrow" layoutX="494.0" layoutY="363.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="62.0" text="&gt;">
+      <Button fx:id="rightarrow" layoutX="494.0" layoutY="346.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="62.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="&gt;">
          <font>
-            <Font size="30.0" />
+            <Font size="28.0" />
          </font>
       </Button>
-      <Button fx:id="swapplayerbtn" layoutX="675.0" layoutY="218.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" text="Swap Players" />
-      <Button fx:id="skipturnbtn" layoutX="675.0" layoutY="415.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" text="Skip Turn" />
+      <Button fx:id="swapplayerbtn" layoutX="668.0" layoutY="218.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="107.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="Swap Players">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="skipturnbtn" layoutX="675.0" layoutY="415.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="Skip Turn">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
    </children>
 </Pane>
