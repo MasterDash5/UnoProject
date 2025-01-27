@@ -2,15 +2,12 @@ package me.masterdash5.unoproject.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import me.masterdash5.unoproject.model.*;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 public class UnoController {
@@ -19,7 +16,7 @@ public class UnoController {
     private ImageView image_Card1, image_Card2, image_Card3, image_Card4, image_Card5, image_Deck, image_BackDeck, player2hand1img, player2hand2img, player2hand3img, player2hand4img, player2hand5img;
 
     @FXML
-    private Button button_RotateLeft, button_RotateRight, button_SkipTurn, button_CallUNO;
+    private Button button_RotateLeft, button_RotateRight, button_SkipTurn, button_CallUNO, button_Wildcard_Red, button_Wildcard_Blue, button_Wildcard_Yellow, button_Wildcard_Green;
 
     @FXML
     private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount;
@@ -31,6 +28,8 @@ public class UnoController {
     private Player[] players; // The players in the game
     private int activePlayer; // Index of the active player
     private int playerCardIndexStart = 0; // For rotating player's visible cards
+    private CardColor selectedColor; // The color selected by the player from a wild card
+    private boolean wildToggle = false; // Toggles the wild card action
 
     public UnoController() {
         deck = new Deck(); // Create a new deck
@@ -69,43 +68,65 @@ public class UnoController {
         int absoluteIndex = playerCardIndexStart + cardIndex;
         List<Card> playerHand = players[activePlayer].getHand();
 
-        if (absoluteIndex >= playerHand.size())
-            return false; // Invalid card selected.
+        if (absoluteIndex >= playerHand.size()) return false; // Invalid card selected.
 
         Card selectedCard = playerHand.get(absoluteIndex);
 
-        if (!isValidPlay(selectedCard))
-            return false; // Card couldn't be played.
+        if (!isValidPlay(selectedCard)) return false; // Card couldn't be played.
 
-        playerHand.remove(absoluteIndex);
+        playerHand.remove(absoluteIndex); // Remove the card from the player's hand
         deck.addToDiscardPile(selectedCard); // Add to discard pile
 
         switch (selectedCard.getType()) {
             case WILD4:
                 players[getNextPlayer()].setForceDraw(4);
-                selectedCard.setCardColor(requestCardColor());
+                toggleWildAction(); // Show color selection
+                return true; // Wait for color selection to continue
             case WILD:
-                selectedCard.setCardColor(requestCardColor());
-                break;
+                toggleWildAction(); // Show color selection
+                return true; // Wait for color selection to continue
             case DRAW2:
-                players[activePlayer].setForceDraw(0); // Resets force draw when stacking draw2
-                players[getNextPlayer()].setForceDraw(players[activePlayer].getForceDraw() + 2);
+                players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
                 break;
             case REVERSE:
+                // TODO: Implement reverse logic (e.g., reverse turn order if >2 players)
+                break;
             case SKIP:
-
+                swapPlayers(); // Skip the next player
+                break;
         }
 
         swapPlayers();
-        updateUI(); // Only update the UI, do not reset or shuffle the deck
+        updateUI();
         return true;
     }
 
-    private CardColor requestCardColor() {
-        // TODO: return from UI.
 
-        return CardColor.RED; // Temp testing value.
+    private void toggleWildAction() { // Toggle the wild card action
+        wildToggle = !wildToggle;
+        System.out.println("Toggling wild action. Current state: " + wildToggle);
+
+        // Show or hide the color selection buttons
+        button_Wildcard_Blue.setVisible(wildToggle);
+        button_Wildcard_Green.setVisible(wildToggle);
+        button_Wildcard_Red.setVisible(wildToggle);
+        button_Wildcard_Yellow.setVisible(wildToggle);
+
+        // Disable the color selection buttons when not in use
+        button_Wildcard_Blue.setDisable(!wildToggle);
+        button_Wildcard_Green.setDisable(!wildToggle);
+        button_Wildcard_Red.setDisable(!wildToggle);
+        button_Wildcard_Yellow.setDisable(!wildToggle);
+
+        // Disable the card images when selecting a color to prevent playing other cards
+        image_Card1.setDisable(wildToggle);
+        image_Card2.setDisable(wildToggle);
+        image_Card3.setDisable(wildToggle);
+        image_Card4.setDisable(wildToggle);
+        image_Card5.setDisable(wildToggle);
     }
+
+
 
     private boolean isValidPlay(Card card) {
         if (players[activePlayer].getForceDraw() == 2)
@@ -180,6 +201,22 @@ public class UnoController {
         };
     }
 
+    private void finishWildAction() {
+        // Ensure buttons are hidden after the action
+        if (wildToggle) {
+            toggleWildAction(); // Hide the color selection buttons
+        }
+
+        Card topCard = deck.getTopCard();
+        topCard.setCardColor(selectedColor); // Apply the selected color to the wild card
+        System.out.println("Wild card color set to: " + selectedColor);
+
+        swapPlayers(); // Move to the next player's turn
+        updateUI(); // Refresh the UI
+    }
+
+
+
     @FXML
     public void initialize() {
         // Set up listeners for card images and buttons
@@ -193,6 +230,10 @@ public class UnoController {
         button_RotateRight.setOnAction(_ -> onRotateRight());
         button_SkipTurn.setOnAction(_ -> onSkipTurn());
         button_CallUNO.setOnAction(_ -> onCallUNO());
+        button_Wildcard_Blue.setOnAction(_ -> onColorBlue());
+        button_Wildcard_Green.setOnAction(_ -> onColorGreen());
+        button_Wildcard_Red.setOnAction(_ -> onColorRed());
+        button_Wildcard_Yellow.setOnAction(_ -> onColorYellow());
 
         startGame(); // Start the game
     }
@@ -209,24 +250,29 @@ public class UnoController {
     public void onCardClick5() { handleCardPlay(4); } // Handle card play for each card slot
 
     @FXML
-    public void onColorGreen() {
-
-    }
-
-    @FXML
-    public void onColorYellow() {
-
+    public void onColorRed() {
+        selectedColor = CardColor.RED;
+        finishWildAction();
     }
 
     @FXML
     public void onColorBlue() {
-
+        selectedColor = CardColor.BLUE;
+        finishWildAction();
     }
 
     @FXML
-    public void onColorRed() {
-
+    public void onColorYellow() {
+        selectedColor = CardColor.YELLOW;
+        finishWildAction();
     }
+
+    @FXML
+    public void onColorGreen() {
+        selectedColor = CardColor.GREEN;
+        finishWildAction();
+    }
+
 
     @FXML
     public void onCallUNO() {

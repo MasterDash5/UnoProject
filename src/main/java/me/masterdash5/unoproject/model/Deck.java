@@ -79,4 +79,10 @@ public class Deck {
 
         return discardPile.getLast();
     }
+
+    public void addDiscardPileToDeck() {
+        cards.addAll(discardPile);
+        discardPile.clear();
+        shuffle();
+    }
 }
