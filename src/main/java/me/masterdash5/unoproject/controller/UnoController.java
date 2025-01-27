@@ -16,7 +16,7 @@ public class UnoController {
     private ImageView image_Card1, image_Card2, image_Card3, image_Card4, image_Card5, image_Deck, image_BackDeck, player2hand1img, player2hand2img, player2hand3img, player2hand4img, player2hand5img;
 
     @FXML
-    private Button button_RotateLeft, button_RotateRight, button_SkipTurn, button_CallUNO, button_Wildcard_Red, button_Wildcard_Blue, button_Wildcard_Yellow, button_Wildcard_Green;
+    private Button button_RotateLeft, button_RotateRight, button_CallUNO, button_Wildcard_Red, button_Wildcard_Blue, button_Wildcard_Yellow, button_Wildcard_Green;
 
     @FXML
     private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount;
@@ -30,6 +30,8 @@ public class UnoController {
     private int playerCardIndexStart = 0; // For rotating player's visible cards
     private CardColor selectedColor; // The color selected by the player from a wild card
     private boolean wildToggle = false; // Toggles the wild card action
+    private boolean unoCalled = false; // Tracks if the active player called UNO
+
 
     public UnoController() {
         deck = new Deck(); // Create a new deck
@@ -57,10 +59,23 @@ public class UnoController {
     }
 
     public void swapPlayers() {
+        // Penalize the player if they failed to call UNO during their turn
+        if (players[activePlayer].getHand().size() == 1 && !unoCalled) {
+            System.out.println("Player failed to call UNO! Adding 2 penalty cards.");
+            for (int i = 0; i < 2; i++) {
+                players[activePlayer].addCard(deck.drawCard());
+            }
+        }
+
+        // Reset the UNO call status for the next turn
+        unoCalled = false;
+
         activePlayer = getNextPlayer(); // Switch to the next player
         playerCardIndexStart = 0;
         updateUI(); // Update the UI for the new active player
     }
+
+
 
     public int getNextPlayer() { return (activePlayer + 1) % MAX_PLAYERS; }
 
@@ -77,15 +92,14 @@ public class UnoController {
         playerHand.remove(absoluteIndex); // Remove the card from the player's hand
         deck.addToDiscardPile(selectedCard); // Add to discard pile
 
+        // Allow the player to call UNO before their turn ends
         switch (selectedCard.getType()) {
             case WILD4:
                 players[getNextPlayer()].setForceDraw(4);
                 toggleWildAction(); // Show color selection
-                swapPlayers();
                 return true; // Wait for color selection to continue
             case WILD:
                 toggleWildAction(); // Show color selection
-                swapPlayers();
                 return true; // Wait for color selection to continue
             case DRAW2:
                 players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
@@ -98,9 +112,11 @@ public class UnoController {
                 break;
         }
 
-        swapPlayers();
+        swapPlayers(); // End the turn
         return true;
     }
+
+
 
 
     private void toggleWildAction() { // Toggle the wild card action
@@ -189,7 +205,18 @@ public class UnoController {
         image_Deck.setImage(deck.getTopCard().getImage());
         tf_PlayersCardAmount.setText(String.valueOf(players[activePlayer].getHand().size()));
         tf_OpponentsCardAmount.setText(String.valueOf(players[(activePlayer + 1) % MAX_PLAYERS].getHand().size()));
+
+        // Show or hide the "Call UNO" button based on the active player's card count
+        if (players[activePlayer].getHand().size() == 2) {
+            button_CallUNO.setVisible(true);
+            button_CallUNO.setDisable(false);
+        } else {
+            button_CallUNO.setVisible(false);
+            button_CallUNO.setDisable(true);
+        }
     }
+
+
 
     private ImageView getCardImageView(int index) {
         return switch (index) { // Return the corresponding ImageView based on the index
@@ -228,7 +255,6 @@ public class UnoController {
         image_Deck.setOnMouseClicked(_ -> onDrawCard());
         button_RotateLeft.setOnAction(_ -> onRotateLeft());
         button_RotateRight.setOnAction(_ -> onRotateRight());
-        button_SkipTurn.setOnAction(_ -> onSkipTurn());
         button_CallUNO.setOnAction(_ -> onCallUNO());
         button_Wildcard_Blue.setOnAction(_ -> onColorBlue());
         button_Wildcard_Green.setOnAction(_ -> onColorGreen());
@@ -276,17 +302,15 @@ public class UnoController {
 
     @FXML
     public void onCallUNO() {
-        if (players[activePlayer].getHand().size() == 2) { // Check if the player has 2 cards
+        if (players[activePlayer].getHand().size() == 2) {
+            unoCalled = true; // Mark that the player called UNO
             System.out.println("UNO called!");
         } else {
             System.out.println("You can only call UNO when you have 2 cards!");
         }
     }
 
-    @FXML
-    public void onSkipTurn() { // Skip the current player's turn
-        swapPlayers();
-    }
+
 
     @FXML
     public void onDrawCard() { // Draw a card from the deck
