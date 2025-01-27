@@ -102,6 +102,7 @@ public class UnoController {
                 toggleWildAction(); // Show color selection
                 return true; // Wait for color selection to continue
             case DRAW2:
+                players[activePlayer].setForceDraw(0);
                 players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
                 break;
             case REVERSE:
