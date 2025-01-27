@@ -19,7 +19,9 @@ public class UnoController {
     private Button button_RotateLeft, button_RotateRight, button_SkipTurn, button_CallUNO, button_Wildcard_Red, button_Wildcard_Blue, button_Wildcard_Yellow, button_Wildcard_Green;
 
     @FXML
-    private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount;
+    private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount, tf_PlayerTurn;
+
+
 
     public static final int MAX_PLAYERS = 2; // Number of players in the game
     public static final int VISIBLE_CARDS = 5; // Number of visible cards for the player
@@ -30,6 +32,8 @@ public class UnoController {
     private int playerCardIndexStart = 0; // For rotating player's visible cards
     private CardColor selectedColor; // The color selected by the player from a wild card
     private boolean wildToggle = false; // Toggles the wild card action
+    private int playerTurn = 1;
+    private int round = 1;
 
     public UnoController() {
         deck = new Deck(); // Create a new deck
@@ -59,6 +63,11 @@ public class UnoController {
     public void swapPlayers() {
         activePlayer = getNextPlayer(); // Switch to the next player
         playerCardIndexStart = 0;
+        playerTurn ++;
+        if (playerTurn == 3){
+            playerTurn = 1;
+            round ++;
+        }
         updateUI(); // Update the UI for the new active player
     }
 
@@ -174,6 +183,8 @@ public class UnoController {
 
     private void updateUI() {
         List<Card> playerCards = players[activePlayer].getHand();
+        tf_PlayerTurn.setText( "Player: " + playerTurn + " Round : " + round);
+
 
         for (int i = 0; i < VISIBLE_CARDS; i++) {
             if (playerCardIndexStart + i < playerCards.size()) {
