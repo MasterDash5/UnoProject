@@ -1,5 +1,7 @@
 package me.masterdash5.unoproject.model;
 
+import javafx.scene.image.Image;
+
 public interface Card {
     // Card for UNO
     CardColor getColor();
@@ -10,30 +12,31 @@ public interface Card {
     void setCardType(CardType type);
     void setCardNumber(int number);
 
-    // Set URL for card image
-    default String getURL() {
-        // "color-number.png", "wild.png", "wild4.png", "color-draw-2.png", "color-reverse.png", "color-skip.png"
-        String url = "";
+    // Set Image for the card
+    default Image getImage() {
+        String fileName = "";
         switch (getType()) {
             case NUMBER:
-                url = getColor().toString() + "-" + getNumber() + ".png";
+                fileName = getColor().toString() + "-" + getNumber() + ".png";
                 break;
             case WILD:
-                url = "wild.png";
+                fileName = "wild.png";
                 break;
             case WILD4:
-                url = "wild4.png";
+                fileName = "wild4.png";
                 break;
             case DRAW2:
-                url = getColor().toString() + "-draw-2.png";
+                fileName = getColor().toString() + "-draw-2.png";
                 break;
             case REVERSE:
-                url = getColor().toString() + "-reverse.png";
+                fileName = getColor().toString() + "-reverse.png";
                 break;
             case SKIP:
-                url = getColor().toString() + "-skip.png";
+                fileName = getColor().toString() + "-skip.png";
                 break;
         }
-        return url;
+        // Load the image from the file name
+        return new Image(getClass().getResourceAsStream("target/classes/assets/" + fileName));
     }
+
 }
