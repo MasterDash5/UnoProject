@@ -45,7 +45,7 @@ public class UnoController {
 
         //loop through all players and deal them 7 cards
         for (int i = 0; i < MAX_PLAYERS; i++) {
-            players[i] = new Player();
+            players[i] = new Player(false);
 
             for (int j = 0; j < 7; j++) // Each player gets exactly 7 cards
                 players[i].addCard(deck.drawCard());
@@ -58,10 +58,12 @@ public class UnoController {
     }
 
     public void swapPlayers() {
-        activePlayer = (activePlayer + 1) % MAX_PLAYERS; // Switch to the next player
+        activePlayer = getNextPlayer(); // Switch to the next player
         playerCardIndexStart = 0;
         updateUI(); // Update the UI for the new active player
     }
+
+    public int getNextPlayer() { return (activePlayer + 1) % MAX_PLAYERS; }
 
     private boolean handleCardPlay(int cardIndex) {
         if (players[activePlayer].getForceDraw() > 0)
@@ -81,8 +83,19 @@ public class UnoController {
         playerHand.remove(absoluteIndex);
         deck.addToDiscardPile(selectedCard); // Add to discard pile
 
-        if (selectedCard.getType() == CardType.WILD || selectedCard.getType() == CardType.WILD4)
-            selectedCard.setCardColor(requestCardColor());
+        switch (selectedCard.getType()) {
+            case WILD4:
+                players[getNextPlayer()].setForceDraw(4);
+            case WILD:
+                selectedCard.setCardColor(requestCardColor());
+                break;
+            case DRAW2:
+                players[getNextPlayer()].setForceDraw(2);
+                break;
+            case REVERSE:
+            case SKIP:
+
+        }
 
         swapPlayers();
         updateUI(); // Only update the UI, do not reset or shuffle the deck
@@ -116,6 +129,14 @@ public class UnoController {
             Thread.sleep(1000); // Wait a second so the CPU doesn't play instantly.
         } catch (InterruptedException exception) {
             exception.printStackTrace();
+        }
+
+        if (players[activePlayer].getForceDraw() > 0) {
+            for (int i = 0; i < players[activePlayer].getForceDraw(); i++)
+                players[activePlayer].addCard(deck.drawCard());
+
+            players[activePlayer].setForceDraw(0);
+            return;
         }
 
         for (int i = 0; i < players[activePlayer].getHandSize(); i++) {
@@ -184,6 +205,26 @@ public class UnoController {
     public void onCardClick4() { handleCardPlay(3); } // Handle card play for each card slot
     @FXML
     public void onCardClick5() { handleCardPlay(4); } // Handle card play for each card slot
+
+    @FXML
+    public void onColorGreen() {
+
+    }
+
+    @FXML
+    public void onColorYellow() {
+
+    }
+
+    @FXML
+    public void onColorBlue() {
+
+    }
+
+    @FXML
+    public void onColorRed() {
+
+    }
 
     @FXML
     public void onCallUNO() {
