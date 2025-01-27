@@ -13,8 +13,6 @@ public interface Card {
     void setCardColor(CardColor color);
     void setCardType(CardType type);
     void setCardNumber(int number);
-    void setImage(Image image);
-
     // Set Image for the card
     default Image getImage() {
         String fileName = "";

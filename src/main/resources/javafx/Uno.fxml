@@ -20,7 +20,7 @@
             <Image url="@../assets/back.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="image_Card4"  fitHeight="204.0" fitWidth="121.0" layoutX="433.0" layoutY="513.0" onMouseClicked="#onCardClick4" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="image_Card4" fitHeight="204.0" fitWidth="121.0" layoutX="433.0" layoutY="513.0" onMouseClicked="#onCardClick4" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
          </image>
@@ -30,7 +30,7 @@
             <Image url="@../assets/back.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="image_Card2"  fitHeight="204.0" fitWidth="121.0" layoutX="191.0" layoutY="513.0" onMouseClicked="#onCardClick2" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="image_Card2" fitHeight="204.0" fitWidth="121.0" layoutX="191.0" layoutY="513.0" onMouseClicked="#onCardClick2" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
          </image>
@@ -85,12 +85,12 @@
             <Font size="28.0" />
          </font>
       </Button>
-      <Button fx:id="button_SkipTurn"  layoutX="675.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#onSkipTurn" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="Skip Turn">
+      <Button fx:id="button_SkipTurn" layoutX="675.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#onSkipTurn" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="Skip Turn">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <TextField fx:id="tf_OpponentsCardAmount" layoutX="694.0" layoutY="68.0" />
-      <TextField fx:id="tf_PlayersCardAmount" layoutX="685.0" layoutY="538.0" />
+      <TextField fx:id="tf_OpponentsCardAmount" editable="false" layoutX="694.0" layoutY="68.0" />
+      <TextField fx:id="tf_PlayersCardAmount" editable="false" layoutX="685.0" layoutY="538.0" />
    </children>
 </Pane>

@@ -11,12 +11,6 @@ public class Card_Number implements Card {
     private int number;
     private Image image;
 
-    @Override
-    public void setImage(Image image) {
-        if(image != null) {
-            this.image = image;
-        }
-    }
 
     public Card_Number(CardColor color, int number) {
         setCardColor(color);

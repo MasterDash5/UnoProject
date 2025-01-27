@@ -13,10 +13,6 @@ public class Card_Draw2 implements Card {
     private int number;
     private Image image;
 
-    @Override
-    public void setImage(javafx.scene.image.Image image) {
-        this.image = image;
-    }
 
     @Override
     public CardColor getColor() {

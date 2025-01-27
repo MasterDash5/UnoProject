@@ -9,12 +9,6 @@ public class Card_Skip implements Card {
     private CardColor color;
     private Image image;
 
-    @Override
-    public void setImage(Image image) {
-        if(image != null) {
-            this.image = image;
-        }
-    }
 
     @Override
     public CardColor getColor() {

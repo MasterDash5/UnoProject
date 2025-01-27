@@ -2,6 +2,7 @@ package me.masterdash5.unoproject.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,10 +41,11 @@ public class UnoController {
     }
 
     public void startGame() {
-        System.out.println("startGame() called"); // Debug line
+        System.out.println("game started");
         deck.reset();
         deck.shuffle();
 
+        //loop through all players and deal them 7 cards
         for (int i = 0; i < MAX_PLAYERS; i++) {
             players[i] = new Player();
             for (int j = 0; j < 7; j++) { // Each player gets exactly 7 cards
