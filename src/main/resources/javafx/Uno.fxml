@@ -112,5 +112,6 @@
             <Font size="16.0" />
          </font>
       </Button>
+      <TextField fx:id="tf_PlayerTurn" layoutX="163.0" layoutY="249.0" />
    </children>
 </Pane>
