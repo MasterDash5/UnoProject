@@ -92,5 +92,25 @@
       </Button>
       <TextField fx:id="tf_OpponentsCardAmount" editable="false" layoutX="694.0" layoutY="68.0" />
       <TextField fx:id="tf_PlayersCardAmount" editable="false" layoutX="685.0" layoutY="538.0" />
+      <Button fx:id="button_Wildcard_Green" layoutX="594.0" layoutY="225.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="67.0" text="Green" textFill="#238f1b" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="button_Wildcard_Yellow" layoutX="675.0" layoutY="288.0" mnemonicParsing="false" text="Yellow" textFill="#cfdb2a" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="button_Wildcard_Blue" layoutX="512.0" layoutY="288.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="67.0" text="Blue" textFill="#1038e6" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="button_Wildcard_Red" layoutX="590.0" layoutY="356.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="67.0" text="Red" textFill="#e51810" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
