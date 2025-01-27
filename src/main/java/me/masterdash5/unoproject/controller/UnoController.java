@@ -6,13 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import me.masterdash5.unoproject.model.Card;
-import me.masterdash5.unoproject.model.CardType;
-import me.masterdash5.unoproject.model.Deck;
-import me.masterdash5.unoproject.model.Player;
+import me.masterdash5.unoproject.model.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class UnoController {
@@ -65,17 +63,6 @@ public class UnoController {
         updateUI(); // Update the UI for the new active player
     }
 
-    private ImageView getCardImageView(int index) {
-        return switch (index) { // Return the corresponding ImageView based on the index
-            case 0 -> image_Card1;
-            case 1 -> image_Card2;
-            case 2 -> image_Card3;
-            case 3 -> image_Card4;
-            case 4 -> image_Card5;
-            default -> throw new IllegalArgumentException("Invalid card index");
-        };
-    }
-
     private boolean handleCardPlay(int cardIndex) {
         int absoluteIndex = playerCardIndexStart + cardIndex;
         List<Card> playerHand = players[activePlayer].getHand();
@@ -86,6 +73,10 @@ public class UnoController {
             if (isValidPlay(selectedCard)) {
                 playerHand.remove(absoluteIndex);
                 deck.addToDiscardPile(selectedCard); // Add to discard pile
+
+                if (selectedCard.getType() == CardType.WILD || selectedCard.getType() == CardType.WILD4)
+                    selectedCard.setCardColor(requestCardColor());
+
                 swapPlayers();
             } else {
                 return false; // Card couldn't be played.
@@ -95,6 +86,12 @@ public class UnoController {
 
         updateUI(); // Only update the UI, do not reset or shuffle the deck
         return true;
+    }
+
+    private CardColor requestCardColor() {
+        // TODO: return from UI.
+
+        return CardColor.RED; // Temp testing value.
     }
 
     private boolean isValidPlay(Card card) {
@@ -113,6 +110,23 @@ public class UnoController {
         return card.getColor() == top.getColor();
     }
 
+    private void autoPlayTurn() {
+        try {
+            Thread.sleep(1000); // Wait a second so the CPU doesn't play instantly.
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
+        }
+
+        for (int i = 0; i < players[activePlayer].getHandSize(); i++) {
+            players[activePlayer].selectCard(i);
+
+            if (handleCardPlay(i))
+                return; // Card was successfully played.
+        }
+
+        players[activePlayer].addCard(deck.drawCard()); // No card could be played.
+    }
+
     private void updateUI() {
         List<Card> playerCards = players[activePlayer].getHand();
 
@@ -129,6 +143,17 @@ public class UnoController {
         image_Deck.setImage(deck.getTopCard().getImage());
         tf_PlayersCardAmount.setText(String.valueOf(players[activePlayer].getHand().size()));
         tf_OpponentsCardAmount.setText(String.valueOf(players[(activePlayer + 1) % MAX_PLAYERS].getHand().size()));
+    }
+
+    private ImageView getCardImageView(int index) {
+        return switch (index) { // Return the corresponding ImageView based on the index
+            case 0 -> image_Card1;
+            case 1 -> image_Card2;
+            case 2 -> image_Card3;
+            case 3 -> image_Card4;
+            case 4 -> image_Card5;
+            default -> throw new IllegalArgumentException("Invalid card index");
+        };
     }
 
     @FXML
