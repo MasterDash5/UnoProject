@@ -250,7 +250,7 @@ public class UnoController {
                     players[activePlayer].addCard(deck.drawCard()); // Draw the forced amount of cards at once
                 }
                 players[activePlayer].setForceDraw(0); // Reset how many the player must draw
-            } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced with draw 2/4
+            } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced to draw
             swapPlayers();
             updateUI();
         } else {
