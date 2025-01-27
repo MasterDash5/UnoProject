@@ -64,26 +64,27 @@ public class UnoController {
     }
 
     private boolean handleCardPlay(int cardIndex) {
+        if (players[activePlayer].getForceDraw() > 0)
+            return false; // Player must draw.
+
         int absoluteIndex = playerCardIndexStart + cardIndex;
         List<Card> playerHand = players[activePlayer].getHand();
 
-        if (absoluteIndex < playerHand.size()) {
-            Card selectedCard = playerHand.get(absoluteIndex);
+        if (absoluteIndex >= playerHand.size())
+            return false; // Invalid card selected.
 
-            if (isValidPlay(selectedCard)) {
-                playerHand.remove(absoluteIndex);
-                deck.addToDiscardPile(selectedCard); // Add to discard pile
+        Card selectedCard = playerHand.get(absoluteIndex);
 
-                if (selectedCard.getType() == CardType.WILD || selectedCard.getType() == CardType.WILD4)
-                    selectedCard.setCardColor(requestCardColor());
+        if (!isValidPlay(selectedCard))
+            return false; // Card couldn't be played.
 
-                swapPlayers();
-            } else {
-                return false; // Card couldn't be played.
-            }
-        } else
-            return false; // No valid card selected.
+        playerHand.remove(absoluteIndex);
+        deck.addToDiscardPile(selectedCard); // Add to discard pile
 
+        if (selectedCard.getType() == CardType.WILD || selectedCard.getType() == CardType.WILD4)
+            selectedCard.setCardColor(requestCardColor());
+
+        swapPlayers();
         updateUI(); // Only update the UI, do not reset or shuffle the deck
         return true;
     }

@@ -8,6 +8,7 @@ public class Player {
 
     private final List<Card> hand; // Represents the player's cards
     private int selectedCardIndex; // Index of the currently selected card
+    private int forceDraw; // Amount the player must draw.
 
     public Player() {
         this.hand = new ArrayList<>();
@@ -61,8 +62,10 @@ public class Player {
     }
 
     // Get the size of the player's hand
-    public int getHandSize() {
-        return hand.size();
-    }
+    public int getHandSize() { return hand.size(); }
+
+    public int getForceDraw() { return forceDraw; }
+
+    public void setForceDraw(int forceDraw) { this.forceDraw = forceDraw; }
 
 }

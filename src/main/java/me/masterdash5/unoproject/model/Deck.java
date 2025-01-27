@@ -6,20 +6,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
+
     private final List<Card> cards;
     private final List<Card> discardPile;
 
-    // Constructor to initialize the deck
     public Deck() {
         this.cards = new ArrayList<>();
         this.discardPile = new ArrayList<>(); // Initialize discardPile
-        initializeDeck();
+
+        populateDeck();
         shuffle();
     }
 
-    // Initialize the deck with all UNO cards
-    private void initializeDeck() {
-        // Add Number Cards (0-9 for each color)
+    private void populateDeck() {
         for (CardColor color : CardColor.values()) {
             // Add one "0" card per color
             cards.add(new Card_Number(color, 0));
@@ -46,45 +45,32 @@ public class Deck {
         }
     }
 
-    // Shuffle the deck
-    public void shuffle() {
-        Collections.shuffle(cards);
-    }
+    public void shuffle() { Collections.shuffle(cards); }
 
     // Draw a card from the top of the deck
     public Card drawCard() {
-        if (cards.isEmpty())
-            throw new IllegalStateException("The deck is empty!");
+        if (cards.isEmpty()) {
+            populateDeck();
+            shuffle();
+        }
 
         return cards.removeLast(); // Removes and returns the top card
     }
 
-    // Get the remaining size of the deck
-    public int getSize() {
-        return cards.size();
-    }
+    public int getSize() { return cards.size(); }
 
     // Check if the deck is empty
-    public boolean isEmpty() {
-        return cards.isEmpty();
-    }
+    public boolean isEmpty() { return cards.isEmpty(); }
 
     // Reset the deck by clearing and reinitializing it
     public void reset() {
         cards.clear();
-        initializeDeck();
+        populateDeck();
         shuffle();
     }
 
-    // Refill the deck from cards in discard pile.
-    public void refill() {
-
-    }
-
     // Add a card to the discard pile
-    public void addToDiscardPile(Card card) {
-        discardPile.add(card);
-    }
+    public void addToDiscardPile(Card card) { discardPile.add(card); }
 
     // Get the top card of the discard pile
     public Card getTopCard() {
