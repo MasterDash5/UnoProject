@@ -90,15 +90,17 @@ public class UnoController {
             case WILD4:
                 players[getNextPlayer()].setForceDraw(4);
                 toggleWildAction(); // Show color selection
+                swapPlayers();
                 return true; // Wait for color selection to continue
             case WILD:
                 toggleWildAction(); // Show color selection
+                swapPlayers();
                 return true; // Wait for color selection to continue
             case DRAW2:
                 players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
                 break;
             case REVERSE:
-                // TODO: Implement reverse logic (e.g., reverse turn order if >2 players)
+                swapPlayers(); // Reverse the order of players, effectively skipping the current player
                 break;
             case SKIP:
                 swapPlayers(); // Skip the next player
@@ -106,7 +108,6 @@ public class UnoController {
         }
 
         swapPlayers();
-        updateUI();
         return true;
     }
 
@@ -223,7 +224,6 @@ public class UnoController {
         System.out.println("Wild card color set to: " + selectedColor);
 
         swapPlayers(); // Move to the next player's turn
-        updateUI(); // Refresh the UI
     }
 
 
@@ -309,7 +309,6 @@ public class UnoController {
                 players[activePlayer].setForceDraw(0); // Reset how many the player must draw
             } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced to draw
             swapPlayers();
-            updateUI();
         } else {
             System.out.println("Deck is empty!");
         }
