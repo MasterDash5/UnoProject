@@ -3,12 +3,13 @@ package me.masterdash5.unoproject.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import me.masterdash5.unoproject.model.Card;
 import me.masterdash5.unoproject.model.Deck;
 import me.masterdash5.unoproject.model.Player;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -39,21 +40,21 @@ public class UnoController {
     }
 
     public void startGame() {
-        deck.reset(); // Reset the deck
-        deck.shuffle(); // Shuffle the deck
+        System.out.println("startGame() called"); // Debug line
+        deck.reset();
+        deck.shuffle();
 
-        for (int i = 0; i < MAX_PLAYERS; i++) { // Initialize each player
-            players[i] = new Player(); // Create a new player
-            // Each player starts with 7 cards
-            for (int j = 0; j < 7; j++) {
-                players[i].addCard(deck.drawCard()); // Draw a card from the deck 7 times for each player
+        for (int i = 0; i < MAX_PLAYERS; i++) {
+            players[i] = new Player();
+            for (int j = 0; j < 7; j++) { // Each player gets exactly 7 cards
+                players[i].addCard(deck.drawCard());
             }
         }
 
-        activePlayer = new Random().nextInt(MAX_PLAYERS); // Randomly select the starting player
-
-        updateUI(); // Update the UI to reflect the initial state
+        activePlayer = new Random().nextInt(MAX_PLAYERS);
+        updateUI();
     }
+
 
     public void swapPlayers() {
         activePlayer = (activePlayer + 1) % MAX_PLAYERS; // Switch to the next player
@@ -61,19 +62,18 @@ public class UnoController {
     }
 
     private void updateUI() {
-        // Update the visible cards for the active player
-        List<Card> playerCards = players[activePlayer].getHand(); // Get the active player's hand
+        List<Card> playerCards = players[activePlayer].getHand();
         for (int i = 0; i < VISIBLE_CARDS; i++) {
-            if (playerCardIndexStart + i < playerCards.size()) { // Check if the card index is within the player's hand
-                ImageView cardImageView = getCardImageView(i); // Get the ImageView for the card
-                cardImageView.setImage(playerCards.get(playerCardIndexStart + i).getImage()); // Set the card image
-                cardImageView.setVisible(true); // Show the card
+            if (playerCardIndexStart + i < playerCards.size()) {
+                ImageView cardImageView = getCardImageView(i);
+                Image cardImage = playerCards.get((playerCardIndexStart + i)).getImage();
+                cardImageView.setImage(cardImage);
+                cardImageView.setVisible(true);
             } else {
-                getCardImageView(i).setVisible(false); // Hide unused slots
+                getCardImageView(i).setVisible(false);
             }
         }
 
-        // Update card counts for both players
         tf_PlayersCardAmount.setText(String.valueOf(players[activePlayer].getHand().size()));
         tf_OpponentsCardAmount.setText(String.valueOf(players[(activePlayer + 1) % MAX_PLAYERS].getHand().size()));
     }
@@ -132,23 +132,24 @@ public class UnoController {
     public void onCardClick5() { handleCardPlay(4); } // Handle card play for each card slot
 
     private void handleCardPlay(int cardIndex) {
-        int absoluteIndex = playerCardIndexStart + cardIndex; // Calculate the absolute index of the card
-        List<Card> playerHand = players[activePlayer].getHand();  // Get the active player's hand
+        int absoluteIndex = playerCardIndexStart + cardIndex;
+        List<Card> playerHand = players[activePlayer].getHand();
 
-        if (absoluteIndex < playerHand.size()) { // Check if the index is valid
-            Card selectedCard = playerHand.get(absoluteIndex); // Get the selected card
-            // Validate if the card can be played
-            if (isValidPlay(selectedCard)) { // Check if the card can be played
-                playerHand.remove(absoluteIndex); // Remove the card from the player's hand
-                // TODO: Update the current card on the discard pile
-                swapPlayers(); // Switch to the next player
+        if (absoluteIndex < playerHand.size()) {
+            Card selectedCard = playerHand.get(absoluteIndex);
+
+            if (isValidPlay(selectedCard)) {
+                playerHand.remove(absoluteIndex);
+                deck.addToDiscardPile(selectedCard); // Add to discard pile
+                swapPlayers();
             } else {
-                System.out.println("Invalid card play!"); // Display an error message
+                System.out.println("Invalid card play!");
             }
         }
 
-        updateUI(); // Update the UI after the card play
+        updateUI(); // Only update the UI, do not reset or shuffle the deck
     }
+
 
     private boolean isValidPlay(Card card) {
         // TODO: make sure the card can be played based on the current card on the discard pile

@@ -2,6 +2,8 @@ package me.masterdash5.unoproject.model;
 
 import javafx.scene.image.Image;
 
+import java.io.InputStream;
+
 public interface Card {
     // Card for UNO
     CardColor getColor();
@@ -11,6 +13,7 @@ public interface Card {
     void setCardColor(CardColor color);
     void setCardType(CardType type);
     void setCardNumber(int number);
+    void setImage(Image image);
 
     // Set Image for the card
     default Image getImage() {
@@ -23,7 +26,7 @@ public interface Card {
                 fileName = "wild.png";
                 break;
             case WILD4:
-                fileName = "wild4.png";
+                fileName = "wild-draw-4.png";
                 break;
             case DRAW2:
                 fileName = getColor().toString() + "-draw-2.png";
@@ -36,7 +39,11 @@ public interface Card {
                 break;
         }
         // Load the image from the file name
-        return new Image(getClass().getResourceAsStream("target/classes/assets/" + fileName));
-    }
+        String resourcePath = "/assets/" + fileName; // Ensure the path is relative to 'resources'
+        InputStream stream = getClass().getResourceAsStream(resourcePath);
+        if (stream == null) {
+            throw new IllegalArgumentException("Image not found: " + resourcePath);
+        }
+        return new Image(stream);    }
 
 }

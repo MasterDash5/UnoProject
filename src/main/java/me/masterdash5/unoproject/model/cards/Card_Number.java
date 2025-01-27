@@ -1,5 +1,6 @@
 package me.masterdash5.unoproject.model.cards;
 
+import javafx.scene.image.Image;
 import me.masterdash5.unoproject.model.Card;
 import me.masterdash5.unoproject.model.CardColor;
 import me.masterdash5.unoproject.model.CardType;
@@ -8,6 +9,14 @@ public class Card_Number implements Card {
     private CardColor color;
     private CardType type;
     private int number;
+    private Image image;
+
+    @Override
+    public void setImage(Image image) {
+        if(image != null) {
+            this.image = image;
+        }
+    }
 
     public Card_Number(CardColor color, int number) {
         setCardColor(color);

@@ -2,6 +2,7 @@ module me.masterdash5.unoproject {
 
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens me.masterdash5.unoproject to javafx.fxml;

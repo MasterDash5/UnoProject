@@ -7,10 +7,12 @@ import java.util.List;
 
 public class Deck {
     private final List<Card> cards;
+    private final List<Card> discardPile;
 
     // Constructor to initialize the deck
     public Deck() {
         this.cards = new ArrayList<>();
+        this.discardPile = new ArrayList<>(); // Initialize discardPile
         initializeDeck();
         shuffle();
     }
@@ -72,5 +74,18 @@ public class Deck {
         cards.clear();
         initializeDeck();
         shuffle();
+    }
+
+    // Add a card to the discard pile
+    public void addToDiscardPile(Card card) {
+        discardPile.add(card);
+    }
+
+    // Get the top card of the discard pile
+    public Card getTopCard() {
+        if (discardPile.isEmpty()) {
+            throw new IllegalStateException("Discard pile is empty");
+        }
+        return discardPile.get(discardPile.size() - 1);
     }
 }
