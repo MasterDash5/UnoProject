@@ -6,9 +6,14 @@ import me.masterdash5.unoproject.model.CardColor;
 import me.masterdash5.unoproject.model.CardType;
 
 public class Card_Reverse implements Card {
+
     private CardColor color;
     private Image image;
 
+    public Card_Reverse(CardColor color) {
+        setCardColor(color);
+        setCardType(CardType.REVERSE);
+    }
 
     @Override
     public CardColor getColor() {
@@ -46,8 +51,4 @@ public class Card_Reverse implements Card {
         //dont use this method
     }
 
-    public Card_Reverse(CardColor color) {
-        setCardColor(color);
-        setCardType(CardType.REVERSE);
-    }
 }

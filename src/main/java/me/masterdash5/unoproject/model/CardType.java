@@ -13,4 +13,5 @@ public enum CardType {
     public String toString() {
         return name().toLowerCase();
     }
+
 }

@@ -53,10 +53,10 @@ public class Deck {
 
     // Draw a card from the top of the deck
     public Card drawCard() {
-        if (cards.isEmpty()) {
+        if (cards.isEmpty())
             throw new IllegalStateException("The deck is empty!");
-        }
-        return cards.remove(cards.size() - 1); // Removes and returns the top card
+
+        return cards.removeLast(); // Removes and returns the top card
     }
 
     // Get the remaining size of the deck
@@ -76,6 +76,11 @@ public class Deck {
         shuffle();
     }
 
+    // Refill the deck from cards in discard pile.
+    public void refill() {
+
+    }
+
     // Add a card to the discard pile
     public void addToDiscardPile(Card card) {
         discardPile.add(card);
@@ -83,9 +88,9 @@ public class Deck {
 
     // Get the top card of the discard pile
     public Card getTopCard() {
-        if (discardPile.isEmpty()) {
+        if (discardPile.isEmpty())
             throw new IllegalStateException("Discard pile is empty");
-        }
-        return discardPile.get(discardPile.size() - 1);
+
+        return discardPile.getLast();
     }
 }

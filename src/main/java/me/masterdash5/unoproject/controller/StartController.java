@@ -8,27 +8,20 @@ import javafx.stage.Stage;
 public class StartController {
 
     @FXML
-    private Button playervsplayer;
-    @FXML
-    private Button playervsbot;
+    private Button playervsplayer, playervsbot;
 
     private Stage primaryStage;
     private Scene unoGameScene;
 
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
+    public void setPrimaryStage(Stage primaryStage) { this.primaryStage = primaryStage; }
 
-    public void setUnoGameScene(Scene unoGameScene) {
-        this.unoGameScene = unoGameScene;
-    }
+    public void setUnoGameScene(Scene unoGameScene) { this.unoGameScene = unoGameScene; }
 
     @FXML
     private void initialize() {
-        playervsplayer.setOnAction(event -> switchToUnoScene());
-        playervsbot.setOnAction(event -> switchToUnoScene());
+        playervsplayer.setOnAction(_ -> switchToUnoScene());
+        playervsbot.setOnAction(_ -> switchToUnoScene());
     }
-
 
     private void switchToUnoScene() {
         if (primaryStage != null && unoGameScene != null) {
@@ -38,4 +31,5 @@ public class StartController {
             System.err.println("PrimaryStage or UnoGameScene is not set!");
         }
     }
+
 }

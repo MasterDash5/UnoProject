@@ -13,6 +13,10 @@ public class Card_Draw2 implements Card {
     private int number;
     private Image image;
 
+    public Card_Draw2(CardColor color) {
+        setCardColor(color);
+        setCardType(CardType.DRAW2);
+    }
 
     @Override
     public CardColor getColor() {
@@ -50,8 +54,4 @@ public class Card_Draw2 implements Card {
         //dont use this method
     }
 
-    public Card_Draw2(CardColor color) {
-        setCardColor(color);
-        setCardType(CardType.DRAW2);
-    }
 }

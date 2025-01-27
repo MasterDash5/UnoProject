@@ -6,8 +6,13 @@ import me.masterdash5.unoproject.model.CardColor;
 import me.masterdash5.unoproject.model.CardType;
 
 public class Card_Wild_Draw4 implements Card {
+
     private CardColor color;
     private Image image;
+
+    public Card_Wild_Draw4() {
+        setCardType(CardType.WILD4);
+    }
 
     @Override
     public CardColor getColor() {
@@ -28,9 +33,8 @@ public class Card_Wild_Draw4 implements Card {
 
     @Override
     public void setCardColor(CardColor color) {
-        if(color != null) {
+        if (color != null)
             this.color = color;
-        }
     }
 
     @Override
@@ -45,7 +49,4 @@ public class Card_Wild_Draw4 implements Card {
         //dont use this method
     }
 
-    public Card_Wild_Draw4() {
-        setCardType(CardType.WILD4);
-    }
 }

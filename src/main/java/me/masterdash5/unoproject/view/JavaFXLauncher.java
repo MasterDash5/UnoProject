@@ -11,9 +11,7 @@ import java.net.URL;
 
 public class JavaFXLauncher extends Application {
 
-    public static void startup() {
-        launch();
-    }
+    public static void startup() { launch(); }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -33,4 +31,5 @@ public class JavaFXLauncher extends Application {
         startController.setPrimaryStage(primaryStage);
         startController.setUnoGameScene(unoScene);
     }
+
 }

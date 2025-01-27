@@ -1,6 +1,7 @@
 package me.masterdash5.unoproject.model;
 
 public enum CardColor {
+
     RED,
     GREEN,
     BLUE,
@@ -10,4 +11,5 @@ public enum CardColor {
     public String toString() {
         return name().toLowerCase();
     }
+
 }

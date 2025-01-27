@@ -6,11 +6,11 @@ import me.masterdash5.unoproject.model.CardColor;
 import me.masterdash5.unoproject.model.CardType;
 
 public class Card_Number implements Card {
+
     private CardColor color;
     private CardType type;
     private int number;
     private Image image;
-
 
     public Card_Number(CardColor color, int number) {
         setCardColor(color);
@@ -20,23 +20,20 @@ public class Card_Number implements Card {
 
     @Override
     public void setCardColor(CardColor color) {
-        if(color != null) {
+        if (color != null)
             this.color = color;
-        }
     }
 
     @Override
     public void setCardType(CardType type) {
-        if(type != null) {
+        if (type != null)
             this.type = type;
-        }
     }
 
     @Override
     public void setCardNumber(int number) {
-        if(number >= 0 && number <= 9) {
+        if (number >= 0 && number <= 9)
             this.number = number;
-        }
     }
 
     @Override
@@ -58,4 +55,5 @@ public class Card_Number implements Card {
     public String toString() {
         return color + " " + number;
     }
+
 }

@@ -6,47 +6,42 @@ import java.util.Optional;
 
 public class Player {
 
-    private List<Card> hand; // Represents the player's cards
+    private final List<Card> hand; // Represents the player's cards
     private int selectedCardIndex; // Index of the currently selected card
 
     public Player() {
-        hand = new ArrayList<>();
-        selectedCardIndex = -1; // No card is selected initially
+        this.hand = new ArrayList<>();
+        this.selectedCardIndex = -1; // No card is selected initially
     }
 
     // Get the entire hand of the player
-    public List<Card> getHand() {
-        return hand;
-    }
+    public List<Card> getHand() { return hand; }
 
     // Add a card to the player's hand
-    public void addCard(Card card) {
-        hand.add(card);
-    }
+    public void addCard(Card card) { hand.add(card); }
 
     // Remove a card from the player's hand
     public Optional<Card> removeCard(int index) {
-        if (index >= 0 && index < hand.size()) {
+        if (index >= 0 && index < hand.size())
             return Optional.of(hand.remove(index));
-        }
+
         return Optional.empty(); // Invalid index
     }
 
     // Get the currently selected card (if any)
     public Optional<Card> getSelectedCard() {
-        if (selectedCardIndex == -1 || selectedCardIndex >= hand.size()) {
+        if (selectedCardIndex == -1 || selectedCardIndex >= hand.size())
             return Optional.empty();
-        }
+
         return Optional.of(hand.get(selectedCardIndex));
     }
 
     // Set the currently selected card by index
     public void selectCard(int index) {
-        if (index >= 0 && index < hand.size()) {
+        if (index >= 0 && index < hand.size())
             selectedCardIndex = index; // Set the selected card index
-        } else {
+        else
             selectedCardIndex = -1; // Deselect if the index is invalid
-        }
     }
 
     // Get the index of the currently selected card
