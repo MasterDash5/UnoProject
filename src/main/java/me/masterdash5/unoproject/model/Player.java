@@ -7,11 +7,13 @@ import java.util.Optional;
 public class Player {
 
     private final List<Card> hand; // Represents the player's cards
+    private final boolean computer;
     private int selectedCardIndex; // Index of the currently selected card
     private int forceDraw; // Amount the player must draw.
 
-    public Player() {
+    public Player(boolean computer) {
         this.hand = new ArrayList<>();
+        this.computer = computer;
         this.selectedCardIndex = -1; // No card is selected initially
     }
 
@@ -67,5 +69,7 @@ public class Player {
     public int getForceDraw() { return forceDraw; }
 
     public void setForceDraw(int forceDraw) { this.forceDraw = forceDraw; }
+
+    public boolean isComputer() { return computer; }
 
 }
