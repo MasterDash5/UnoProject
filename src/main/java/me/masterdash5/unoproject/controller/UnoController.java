@@ -63,10 +63,11 @@ public class UnoController {
         updateUI(); // Update the UI for the new active player
     }
 
-    private boolean handleCardPlay(int cardIndex) {
-        if (players[activePlayer].getForceDraw() > 0)
-            return false; // Player must draw.
+    public int getNextPlayer() {
+        return (activePlayer + 1) % MAX_PLAYERS;
+    }
 
+    private boolean handleCardPlay(int cardIndex) {
         int absoluteIndex = playerCardIndexStart + cardIndex;
         List<Card> playerHand = players[activePlayer].getHand();
 
@@ -80,6 +81,14 @@ public class UnoController {
 
         playerHand.remove(absoluteIndex);
         deck.addToDiscardPile(selectedCard); // Add to discard pile
+
+        if (selectedCard.getType() == CardType.DRAW2) {
+            players[activePlayer].setForceDraw(0); // Rests force draw if player stacked draw2
+            players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
+        }
+
+        if (selectedCard.getType() == CardType.WILD4)
+            players[getNextPlayer()].setForceDraw(4);
 
         if (selectedCard.getType() == CardType.WILD || selectedCard.getType() == CardType.WILD4)
             selectedCard.setCardColor(requestCardColor());
@@ -96,6 +105,9 @@ public class UnoController {
     }
 
     private boolean isValidPlay(Card card) {
+        if (players[activePlayer].getForceDraw() == 2)
+            return card.getType() == CardType.DRAW2; // Allowing stacking of draw2 but not allowing play otherwise
+
         if (card.getType() == CardType.WILD || card.getType() == CardType.WILD4)
             return true;
 
@@ -202,7 +214,12 @@ public class UnoController {
     @FXML
     public void onDrawCard() { // Draw a card from the deck
         if (!deck.isEmpty()) {
-            players[activePlayer].addCard(deck.drawCard());
+            if (players[activePlayer].getForceDraw() > 0) {
+                for (int i = 0; i < players[activePlayer].getForceDraw(); i++) {
+                    players[activePlayer].addCard(deck.drawCard()); // Draw the forced amount of cards at once
+                }
+                players[activePlayer].setForceDraw(0); // Reset how many the player must draw
+            } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced with draw 2/4
             swapPlayers();
             updateUI();
         } else {
