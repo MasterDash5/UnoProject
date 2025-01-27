@@ -65,24 +65,6 @@ public class UnoController {
         updateUI(); // Update the UI for the new active player
     }
 
-    private void updateUI() {
-        List<Card> playerCards = players[activePlayer].getHand();
-
-        for (int i = 0; i < VISIBLE_CARDS; i++) {
-            if (playerCardIndexStart + i < playerCards.size()) {
-                ImageView cardImageView = getCardImageView(i);
-                Image cardImage = playerCards.get((playerCardIndexStart + i)).getImage();
-                cardImageView.setImage(cardImage);
-                cardImageView.setVisible(true);
-            } else
-                getCardImageView(i).setVisible(false);
-        }
-
-        image_Deck.setImage(deck.getTopCard().getImage());
-        tf_PlayersCardAmount.setText(String.valueOf(players[activePlayer].getHand().size()));
-        tf_OpponentsCardAmount.setText(String.valueOf(players[(activePlayer + 1) % MAX_PLAYERS].getHand().size()));
-    }
-
     private ImageView getCardImageView(int index) {
         return switch (index) { // Return the corresponding ImageView based on the index
             case 0 -> image_Card1;
@@ -93,49 +75,6 @@ public class UnoController {
             default -> throw new IllegalArgumentException("Invalid card index");
         };
     }
-
-    @FXML
-    public void onRotateLeft() { // Rotate the visible cards to the left
-        if (playerCardIndexStart > 0) {
-            playerCardIndexStart--;
-            updateUI();
-        }
-    }
-
-    @FXML
-    public void onRotateRight() { // Rotate the visible cards to the right
-        if (playerCardIndexStart + VISIBLE_CARDS < players[activePlayer].getHand().size()) {
-            playerCardIndexStart++;
-            updateUI();
-        }
-    }
-
-    @FXML
-    public void onSkipTurn() { // Skip the current player's turn
-        swapPlayers();
-    }
-
-    @FXML
-    public void onDrawCard() { // Draw a card from the deck
-        if (!deck.isEmpty()) {
-            players[activePlayer].addCard(deck.drawCard());
-            swapPlayers();
-            updateUI();
-        } else {
-            System.out.println("Deck is empty!");
-        }
-    }
-
-    @FXML
-    public void onCardClick1() { handleCardPlay(0); } // Handle card play for each card slot
-    @FXML
-    public void onCardClick2() { handleCardPlay(1); } // Handle card play for each card slot
-    @FXML
-    public void onCardClick3() { handleCardPlay(2); } // Handle card play for each card slot
-    @FXML
-    public void onCardClick4() { handleCardPlay(3); } // Handle card play for each card slot
-    @FXML
-    public void onCardClick5() { handleCardPlay(4); } // Handle card play for each card slot
 
     private boolean handleCardPlay(int cardIndex) {
         int absoluteIndex = playerCardIndexStart + cardIndex;
@@ -174,13 +113,22 @@ public class UnoController {
         return card.getColor() == top.getColor();
     }
 
-    @FXML
-    public void onCallUNO() {
-        if (players[activePlayer].getHand().size() == 2) { // Check if the player has 2 cards
-            System.out.println("UNO called!");
-        } else {
-            System.out.println("You can only call UNO when you have 2 cards!");
+    private void updateUI() {
+        List<Card> playerCards = players[activePlayer].getHand();
+
+        for (int i = 0; i < VISIBLE_CARDS; i++) {
+            if (playerCardIndexStart + i < playerCards.size()) {
+                ImageView cardImageView = getCardImageView(i);
+                Image cardImage = playerCards.get((playerCardIndexStart + i)).getImage();
+                cardImageView.setImage(cardImage);
+                cardImageView.setVisible(true);
+            } else
+                getCardImageView(i).setVisible(false);
         }
+
+        image_Deck.setImage(deck.getTopCard().getImage());
+        tf_PlayersCardAmount.setText(String.valueOf(players[activePlayer].getHand().size()));
+        tf_OpponentsCardAmount.setText(String.valueOf(players[(activePlayer + 1) % MAX_PLAYERS].getHand().size()));
     }
 
     @FXML
@@ -198,6 +146,58 @@ public class UnoController {
         button_CallUNO.setOnAction(_ -> onCallUNO());
 
         startGame(); // Start the game
+    }
+
+    @FXML
+    public void onCardClick1() { handleCardPlay(0); } // Handle card play for each card slot
+    @FXML
+    public void onCardClick2() { handleCardPlay(1); } // Handle card play for each card slot
+    @FXML
+    public void onCardClick3() { handleCardPlay(2); } // Handle card play for each card slot
+    @FXML
+    public void onCardClick4() { handleCardPlay(3); } // Handle card play for each card slot
+    @FXML
+    public void onCardClick5() { handleCardPlay(4); } // Handle card play for each card slot
+
+    @FXML
+    public void onCallUNO() {
+        if (players[activePlayer].getHand().size() == 2) { // Check if the player has 2 cards
+            System.out.println("UNO called!");
+        } else {
+            System.out.println("You can only call UNO when you have 2 cards!");
+        }
+    }
+
+    @FXML
+    public void onSkipTurn() { // Skip the current player's turn
+        swapPlayers();
+    }
+
+    @FXML
+    public void onDrawCard() { // Draw a card from the deck
+        if (!deck.isEmpty()) {
+            players[activePlayer].addCard(deck.drawCard());
+            swapPlayers();
+            updateUI();
+        } else {
+            System.out.println("Deck is empty!");
+        }
+    }
+
+    @FXML
+    public void onRotateLeft() { // Rotate the visible cards to the left
+        if (playerCardIndexStart > 0) {
+            playerCardIndexStart--;
+            updateUI();
+        }
+    }
+
+    @FXML
+    public void onRotateRight() { // Rotate the visible cards to the right
+        if (playerCardIndexStart + VISIBLE_CARDS < players[activePlayer].getHand().size()) {
+            playerCardIndexStart++;
+            updateUI();
+        }
     }
 
 }
