@@ -15,7 +15,15 @@ public interface Card {
     void setCardType(CardType type);
     void setCardNumber(int number);
 
-    // Set Image for the card
+    /**
+     * Retrieves the image representation of a card based on its type, color, and number.
+     * The method determines the appropriate image file name using the card's attributes,
+     * and then loads the image resource from the corresponding file path.
+     * Throws an exception if the image resource cannot be found.
+     *
+     * @return the {@code Image} object associated with the card.
+     * @throws IllegalArgumentException if the image resource is not found.
+     */
     default Image getImage() {
         String fileName = switch (getType()) {
             case NUMBER -> getColor().toString() + "-" + getNumber() + ".png";
