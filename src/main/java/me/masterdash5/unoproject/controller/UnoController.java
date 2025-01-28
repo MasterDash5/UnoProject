@@ -191,7 +191,7 @@ public class UnoController {
                 break;// Wait for color selection to continue
             case DRAW2:
                 players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
-                if (deck.getTopCard().getType() == CardType.DRAW2)
+                if (deck.getSecondTopCard().getType() == CardType.DRAW2 && players[activePlayer].getForceDraw() > 0)
                     players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2); // Stacking draw2 effectively adds 4 when it loops back to the original player, this will handle that
                 break;
             case REVERSE:
@@ -277,6 +277,9 @@ public class UnoController {
 
         if (card.getType() != CardType.NUMBER && card.getType() == top.getType()) // Special cards
             return true;
+
+        if ((top.getType() == CardType.WILD || top.getType() == CardType.WILD4) && deck.getDiscardPileSize() < 2)
+            return true; // Allow play of any card when the starting card is a wild or wild4
 
         return card.getColor() == top.getColor(); // Color cards
     }
@@ -407,8 +410,6 @@ public class UnoController {
         button_Wildcard_Green.setOnAction(_ -> onColorGreen());
         button_Wildcard_Red.setOnAction(_ -> onColorRed());
         button_Wildcard_Yellow.setOnAction(_ -> onColorYellow());
-
-        startGame(); // Start the game
     }
 
     @FXML

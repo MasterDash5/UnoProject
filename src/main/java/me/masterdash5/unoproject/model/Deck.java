@@ -139,6 +139,18 @@ public class Deck {
         return discardPile.getLast();
     }
 
+    public Card getSecondTopCard() {
+        if (discardPile.isEmpty())
+            throw new IllegalStateException("Discard pile is empty");
+        if (discardPile.size() < 2)
+            return getTopCard();
+        return discardPile.get(discardPile.size() - 2);
+    }
+
+    public int getDiscardPileSize() {
+        return discardPile.size();
+    }
+
     /**
      * Transfers cards from the discard pile back into the main deck while ensuring
      * the integrity of the discard pile. This method is typically used when the

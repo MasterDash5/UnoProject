@@ -35,6 +35,8 @@ public class JavaFXLauncher extends Application {
         UnoController unoController = unoLoader.getController();
         unoController.setPrimaryStage(primaryStage);
         unoController.setStartScene(startScene);
+
+        startController.setUnoController(unoController);
     }
 
 }
