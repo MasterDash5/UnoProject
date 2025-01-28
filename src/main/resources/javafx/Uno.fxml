@@ -40,27 +40,27 @@
             <Image url="@../assets/back.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player2hand1img" fitHeight="204.0" fitWidth="121.0" layoutX="74.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player2hand1img" fitHeight="204.0" fitWidth="121.0" layoutX="72.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player2hand2img" fitHeight="204.0" fitWidth="121.0" layoutX="195.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player2hand2img" fitHeight="204.0" fitWidth="121.0" layoutX="193.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player2hand3img" fitHeight="204.0" fitWidth="121.0" layoutX="312.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player2hand3img" fitHeight="204.0" fitWidth="121.0" layoutX="310.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player2hand4img" fitHeight="204.0" fitWidth="121.0" layoutX="433.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player2hand4img" fitHeight="204.0" fitWidth="121.0" layoutX="431.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player2hand5img" fitHeight="204.0" fitWidth="121.0" layoutX="554.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player2hand5img" fitHeight="204.0" fitWidth="121.0" layoutX="552.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/back.png" />
          </image>

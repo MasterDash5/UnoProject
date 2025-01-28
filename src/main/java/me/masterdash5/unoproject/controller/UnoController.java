@@ -1,5 +1,6 @@
 package me.masterdash5.unoproject.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import me.masterdash5.unoproject.model.*;
 
 import java.util.LinkedList;
@@ -139,7 +141,7 @@ public class UnoController {
 
             // Switch to the start scene
             if (primaryStage != null && StartScene != null) {
-                primaryStage.setScene(StartScene);
+                switchToStartScene();
                 primaryStage.setTitle("UNO - Main Menu");
             } else {
                 System.err.println("PrimaryStage or StartScene is not set!");
@@ -162,6 +164,26 @@ public class UnoController {
 
         updateUI();
     }
+
+    private void switchToStartScene() {
+        if (primaryStage != null && StartScene != null) {
+            // Ensure the root has the correct background color
+            StartScene.getRoot().setStyle("-fx-background-color: black;");
+
+            // Apply the scene
+            primaryStage.setScene(StartScene);
+            primaryStage.setTitle("UNO - Main Menu");
+
+            // Optional: Apply fade-in transition
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), StartScene.getRoot());
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+            fadeIn.play();
+        } else {
+            System.err.println("PrimaryStage or StartScene is not set!");
+        }
+    }
+
 
 
     /**
@@ -468,7 +490,7 @@ public class UnoController {
         image_Card3.setOnMouseClicked(_ -> onCardClick3());
         image_Card4.setOnMouseClicked(_ -> onCardClick4());
         image_Card5.setOnMouseClicked(_ -> onCardClick5());
-        image_Deck.setOnMouseClicked(_ -> onDrawCard());
+        image_BackDeck.setOnMouseClicked(_ -> onDrawCard());
         button_RotateLeft.setOnAction(_ -> onRotateLeft());
         button_RotateRight.setOnAction(_ -> onRotateRight());
         button_CallUNO.setOnAction(_ -> onCallUNO());
@@ -478,23 +500,22 @@ public class UnoController {
         button_Wildcard_Yellow.setOnAction(_ -> onColorYellow());
         tf_PlayerTurn.setEditable(false);
 
+        // Add hover effects for buttons with corresponding colors
+        addHoverEffectToButton(button_RotateLeft, "gray");
+        addHoverEffectToButton(button_RotateRight, "gray");
+        addHoverEffectToButton(button_CallUNO, "yellow");
+        addHoverEffectToButton(button_Wildcard_Blue, "blue");
+        addHoverEffectToButton(button_Wildcard_Green, "green");
+        addHoverEffectToButton(button_Wildcard_Red, "red");
+        addHoverEffectToButton(button_Wildcard_Yellow, "yellow");
+
         // Add hover effects for card images
         addHoverEffectToImageView(image_Card1);
         addHoverEffectToImageView(image_Card2);
         addHoverEffectToImageView(image_Card3);
         addHoverEffectToImageView(image_Card4);
         addHoverEffectToImageView(image_Card5);
-        addHoverEffectToImageView(image_Deck);
         addHoverEffectToImageView(image_BackDeck);
-
-        // Add hover effects for buttons
-        addHoverEffectToButton(button_RotateLeft);
-        addHoverEffectToButton(button_RotateRight);
-        addHoverEffectToButton(button_CallUNO);
-        addHoverEffectToButton(button_Wildcard_Blue);
-        addHoverEffectToButton(button_Wildcard_Green);
-        addHoverEffectToButton(button_Wildcard_Red);
-        addHoverEffectToButton(button_Wildcard_Yellow);
     }
 
 
@@ -503,10 +524,11 @@ public class UnoController {
         imageView.setOnMouseExited(e -> imageView.setStyle("-fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0);"));
     }
 
-    private void addHoverEffectToButton(Button button) {
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: black; -fx-text-fill: yellow; -fx-border-color: yellow; -fx-border-width: 3;"));
+    private void addHoverEffectToButton(Button button, String hoverColor) {
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: " + hoverColor + "; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 3;"));
         button.setOnMouseExited(e -> button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
     }
+
 
 
     @FXML
@@ -593,10 +615,14 @@ public class UnoController {
     }
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        primaryStage.setWidth(800); // Set your desired width
+        primaryStage.setHeight(600); // Set your desired height
+        primaryStage.setResizable(false); // Prevent resizing
     }
 
     public void setStartScene(Scene StartScene) {
         this.StartScene = StartScene;
+        StartScene.getRoot().setStyle("-fx-background-color: black;");
     }
 
 
