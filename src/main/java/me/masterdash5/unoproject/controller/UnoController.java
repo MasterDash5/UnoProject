@@ -189,6 +189,8 @@ public class UnoController {
                 break;// Wait for color selection to continue
             case DRAW2:
                 players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
+                if (deck.getTopCard().getType() == CardType.DRAW2)
+                    players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2); // Stacking draw2 effectively adds 4 when it loops back to the original player, this will handle that
                 break;
             case REVERSE:
                 swapPlayers(); // Reverse the order of players, effectively skipping the current player
@@ -259,13 +261,13 @@ public class UnoController {
      * @return true if the card is valid to play, false otherwise
      */
     private boolean isValidPlay(Card card) {
+        Card top = deck.getTopCard(); // Get the top card from the discard pile
+
         if (players[activePlayer].getForceDraw() > 0) // Forced draw active
-            return card.getType() == CardType.DRAW2; // Allowing stacking of draw2 but not allowing play otherwise
+            return card.getType() == CardType.DRAW2 && top.getType() != CardType.WILD4; // Allowing stacking of draw2 but not allowing play otherwise
 
         if (card.getType() == CardType.WILD || card.getType() == CardType.WILD4) // Wild cards
             return true;
-
-        Card top = deck.getTopCard(); // Get the top card from the discard pile
 
         if (card.getType() == CardType.NUMBER && top.getType() == CardType.NUMBER) // Number cards
             if (card.getNumber() == top.getNumber())
