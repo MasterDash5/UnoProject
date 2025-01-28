@@ -188,7 +188,6 @@ public class UnoController {
                 toggleWildAction(); // Show color selection
                 break;// Wait for color selection to continue
             case DRAW2:
-                players[activePlayer].setForceDraw(0);
                 players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
                 break;
             case REVERSE:
@@ -260,7 +259,7 @@ public class UnoController {
      * @return true if the card is valid to play, false otherwise
      */
     private boolean isValidPlay(Card card) {
-        if (players[activePlayer].getForceDraw() == 2) // Forced draw 2
+        if (players[activePlayer].getForceDraw() > 0) // Forced draw active
             return card.getType() == CardType.DRAW2; // Allowing stacking of draw2 but not allowing play otherwise
 
         if (card.getType() == CardType.WILD || card.getType() == CardType.WILD4) // Wild cards
@@ -458,6 +457,7 @@ public class UnoController {
                     players[activePlayer].addCard(deck.drawCard()); // Draw the forced amount of cards at once
                 }
                 players[activePlayer].setForceDraw(0); // Reset how many the player must draw
+                players[getNextPlayer()].setForceDraw(0); // Reset both players, this handles the case of stacking draw2
             } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced to draw
             swapPlayers();
         } else {
