@@ -183,10 +183,10 @@ public class UnoController {
             case WILD4:
                 players[getNextPlayer()].setForceDraw(4);
                 toggleWildAction(); // Show color selection
-                return true; // Wait for color selection to continue
+                break; // Wait for color selection to continue
             case WILD:
                 toggleWildAction(); // Show color selection
-                return true; // Wait for color selection to continue
+                break;// Wait for color selection to continue
             case DRAW2:
                 players[activePlayer].setForceDraw(0);
                 players[getNextPlayer()].setForceDraw(players[getNextPlayer()].getForceDraw() + 2);
