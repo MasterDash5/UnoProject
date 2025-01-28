@@ -19,7 +19,7 @@ public class UnoController {
     private Button button_RotateLeft, button_RotateRight, button_CallUNO, button_Wildcard_Red, button_Wildcard_Blue, button_Wildcard_Yellow, button_Wildcard_Green;
 
     @FXML
-    private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount;
+    private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount, tf_PlayerTurn;
 
     public static final int MAX_PLAYERS = 2; // Number of players in the game
     public static final int VISIBLE_CARDS = 5; // Number of visible cards for the player
@@ -31,6 +31,8 @@ public class UnoController {
     private CardColor selectedColor; // The color selected by the player from a wild card
     private boolean wildToggle = false; // Toggles the wild card action
     private boolean unoCalled = false; // Tracks if the active player called UNO
+    private int playerTurn = 1;
+    private int round = 1;
 
 
     public UnoController() {
@@ -60,6 +62,11 @@ public class UnoController {
 
     public void swapPlayers() {
         // Penalize the player if they failed to call UNO during their turn
+        playerTurn++;
+        if (playerTurn == 3){
+            playerTurn = 1;
+            round++;
+        }
         if (players[activePlayer].getHand().size() == 1 && !unoCalled) {
             System.out.println("Player failed to call UNO! Adding 2 penalty cards.");
             for (int i = 0; i < 2; i++) {
@@ -192,7 +199,7 @@ public class UnoController {
 
     private void updateUI() {
         List<Card> playerCards = players[activePlayer].getHand();
-
+        tf_PlayerTurn.setText("Player Turn: " + playerTurn + " Round: " + round);
         for (int i = 0; i < VISIBLE_CARDS; i++) {
             if (playerCardIndexStart + i < playerCards.size()) {
                 ImageView cardImageView = getCardImageView(i);

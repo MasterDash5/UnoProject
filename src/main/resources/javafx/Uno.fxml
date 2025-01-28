@@ -85,11 +85,6 @@
             <Font size="28.0" />
          </font>
       </Button>
-      <Button fx:id="button_SkipTurn" layoutX="675.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#onSkipTurn" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;" text="Skip Turn">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
       <TextField fx:id="tf_OpponentsCardAmount" editable="false" layoutX="694.0" layoutY="68.0" />
       <TextField fx:id="tf_PlayersCardAmount" editable="false" layoutX="685.0" layoutY="538.0" />
       <Button fx:id="button_Wildcard_Green" layoutX="594.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#onColorGreen" prefHeight="36.0" prefWidth="67.0" text="Green" textFill="#238f1b" visible="false">
@@ -112,6 +107,6 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <TextField fx:id="tf_PlayerTurn" layoutX="163.0" layoutY="249.0" />
+      <TextField fx:id="tf_PlayerTurn" editable="false" layoutX="163.0" layoutY="249.0" />
    </children>
 </Pane>
