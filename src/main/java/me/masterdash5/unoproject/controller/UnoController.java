@@ -1,10 +1,12 @@
 package me.masterdash5.unoproject.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import me.masterdash5.unoproject.model.*;
 
 import java.util.List;
@@ -20,6 +22,10 @@ public class UnoController {
 
     @FXML
     private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount, tf_PlayerTurn;
+    @FXML
+    private Stage primaryStage;
+    @FXML
+    private Scene Startscene;
 
     public static final int MAX_PLAYERS = 2; // Number of players in the game
     public static final int VISIBLE_CARDS = 5; // Number of visible cards for the player
@@ -72,6 +78,17 @@ public class UnoController {
             for (int i = 0; i < 2; i++) {
                 players[activePlayer].addCard(deck.drawCard());
             }
+        } else if (players[activePlayer].getHand().isEmpty()) {
+            System.out.println("Player has won!");
+            // Switch to the start scene
+            if (primaryStage != null && Startscene != null) {
+                primaryStage.setScene(Startscene);
+                primaryStage.setTitle("UNO - Main Menu");
+            } else {
+                System.err.println("PrimaryStage or StartScene is not set!");
+            }
+            return;
+
         }
 
         // Reset the UNO call status for the next turn
@@ -350,5 +367,13 @@ public class UnoController {
             updateUI();
         }
     }
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void setStartScene(Scene startScene) {
+        this.Startscene = startScene;
+    }
+
 
 }
