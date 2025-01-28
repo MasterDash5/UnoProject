@@ -1,10 +1,12 @@
 package me.masterdash5.unoproject.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import me.masterdash5.unoproject.model.*;
 
 import java.util.List;
@@ -51,6 +53,10 @@ public class UnoController {
     private boolean wildToggle = false; // Toggles the wild card action
     private boolean unoCalled = false; // Tracks if the active player called UNO
 
+    private Stage primaryStage;
+    private Scene startScene; // Reference to the start scene
+
+
     /**
      * Constructs a new instance of the UnoController class.
      *
@@ -93,46 +99,49 @@ public class UnoController {
     }
 
     /**
-     * Handles the transition between player turns in an UNO game, including penalty enforcement
-     * for failing to call "UNO," determining if a player has won, and ensuring the deck is
-     * ready for continued play. This method updates game states to prepare the next player's turn.
+     * Handles the transition between players in the UNO game. This method performs several actions
+     * related to game state and player turn management:
      *
-     * The following operations are performed:
-     * 1. Checks if the active player has one card left without calling "UNO" and applies a
-     *    two-card penalty if necessary.
-     * 2. Determines if the active player has no cards left, indicating a win, and exits the game.
-     * 3. Resets the UNO call status for the current turn.
-     * 4. Verifies if the deck is empty; if so, refills and shuffles the deck with the discard pile.
-     * 5. Switches to the next player by updating the active player index.
-     * 6. Updates the starting card index to reset the player's view.
-     * 7. Updates the game user interface to reflect the new game state.
+     * 1. Checks if the active player has only one card remaining without having called "UNO!".
+     *    - If this is the case, the player is penalized by drawing two cards from the deck.
+     * 2. Determines if the current player has no cards left to declare them the winner.
+     *    - If a player wins, the game transitions to the main menu scene, provided the necessary
+     *      references to `primaryStage` and `startScene` are available.
+     * 3. Ensures that the deck is not empty; if it is, refills and shuffles the deck from the
+     *    discard pile.
+     * 4. Advances to the next player by updating the `activePlayer` index.
+     * 5. Resets the `unoCalled` flag to false to prepare for the next player's turn.
+     * 6. Resets the starting card index for the active player's hand to zero.
+     * 7. Updates the user interface to reflect the new game state.
      */
     public void swapPlayers() {
-        // Penalize the player if they failed to call UNO during their turn
         if (players[activePlayer].getHand().size() == 1 && !unoCalled) {
-            System.out.println("Player failed to call UNO! Adding 2 penalty cards.");
             for (int i = 0; i < 2; i++) {
                 players[activePlayer].addCard(deck.drawCard());
             }
         } else if (players[activePlayer].getHand().size() == 0) {
             System.out.println("Player has won!");
-            System.exit(0);
+
+            // Switch to the start scene
+            if (primaryStage != null && startScene != null) {
+                primaryStage.setScene(startScene);
+                primaryStage.setTitle("UNO - Main Menu");
+            } else {
+                System.err.println("PrimaryStage or StartScene is not set!");
+            }
             return;
         }
 
-        // Reset the UNO call status for the next turn
         unoCalled = false;
 
-        // Check if the deck is empty and refill it with the discard pile
         if (deck.isEmpty()) {
-            System.out.println("Deck is empty. Adding discard pile back to the deck.");
             deck.refillFromDiscardPile();
             deck.shuffle();
         }
 
-        activePlayer = getNextPlayer(); // Switch to the next player
+        activePlayer = getNextPlayer();
         playerCardIndexStart = 0;
-        updateUI(); // Update the UI for the new active player
+        updateUI();
     }
 
 
