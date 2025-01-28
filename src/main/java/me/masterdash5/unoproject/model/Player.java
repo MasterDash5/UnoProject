@@ -11,6 +11,12 @@ public class Player {
     private int selectedCardIndex; // Index of the currently selected card
     private int forceDraw; // Amount the player must draw.
 
+    /**
+     * Constructs a new {@code Player} object with the specified type (computer or not).
+     * Initializes the player's hand, sets the computer flag, and sets the selected card index to -1.
+     *
+     * @param computer a boolean indicating whether the player is controlled by a computer (true) or is a human player (false).
+     */
     public Player(boolean computer) {
         this.hand = new ArrayList<>();
         this.computer = computer;
