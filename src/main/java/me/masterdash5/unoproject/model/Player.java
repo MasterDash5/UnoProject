@@ -10,6 +10,7 @@ public class Player {
     private final boolean computer;
     private int selectedCardIndex; // Index of the currently selected card
     private int forceDraw; // Amount the player must draw.
+    private String name;
 
     /**
      * Constructs a new {@code Player} object with the specified type (computer or not).
@@ -17,10 +18,11 @@ public class Player {
      *
      * @param computer a boolean indicating whether the player is controlled by a computer (true) or is a human player (false).
      */
-    public Player(boolean computer) {
+    public Player(boolean computer, String name) {
         this.hand = new ArrayList<>();
         this.computer = computer;
         this.selectedCardIndex = -1; // No card is selected initially
+        this.name = name;
     }
 
     // Get the entire hand of the player
@@ -29,48 +31,7 @@ public class Player {
     // Add a card to the player's hand
     public void addCard(Card card) { hand.add(card); }
 
-    // Remove a card from the player's hand
-    public Optional<Card> removeCard(int index) {
-        if (index >= 0 && index < hand.size())
-            return Optional.of(hand.remove(index));
-
-        return Optional.empty(); // Invalid index
-    }
-
-    // Get the currently selected card (if any)
-    public Optional<Card> getSelectedCard() {
-        if (selectedCardIndex == -1 || selectedCardIndex >= hand.size())
-            return Optional.empty();
-
-        return Optional.of(hand.get(selectedCardIndex));
-    }
-
-    // Set the currently selected card by index
-    public void selectCard(int index) {
-        if (index >= 0 && index < hand.size())
-            selectedCardIndex = index; // Set the selected card index
-        else
-            selectedCardIndex = -1; // Deselect if the index is invalid
-    }
-
-    // Get the index of the currently selected card
-    public int getSelectedCardIndex() {
-        return selectedCardIndex;
-    }
-
-    // Clear the hand (e.g., when starting a new game)
-    public void clearHand() {
-        hand.clear();
-        selectedCardIndex = -1; // Reset the selected card
-    }
-
-    // Check if the player's hand is empty
-    public boolean isHandEmpty() {
-        return hand.isEmpty();
-    }
-
-    // Get the size of the player's hand
-    public int getHandSize() { return hand.size(); }
+    public String getName() { return name; }
 
     public int getForceDraw() { return forceDraw; }
 

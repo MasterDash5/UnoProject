@@ -1,0 +1,19 @@
+.button {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-border-color: yellow; /* Highlight color */
+    -fx-border-width: 3; /* Slightly thicker border on hover */
+}
+
+.image {
+    -fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0); /* No outline by default */
+}
+
+.image:hover {
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.5, 0, 0); /* Add yellow glow on hover */
+}

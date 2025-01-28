@@ -109,4 +109,6 @@
       </Button>
       <TextField fx:id="tf_PlayerTurn" editable="false" layoutX="163.0" layoutY="249.0" />
    </children>
+
+
 </Pane>

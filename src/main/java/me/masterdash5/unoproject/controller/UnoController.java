@@ -1,5 +1,6 @@
 package me.masterdash5.unoproject.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,7 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import me.masterdash5.unoproject.model.*;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -40,7 +43,7 @@ public class UnoController {
     @FXML
     private Button button_RotateLeft, button_RotateRight, button_CallUNO, button_Wildcard_Red, button_Wildcard_Blue, button_Wildcard_Yellow, button_Wildcard_Green;
     @FXML
-    private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount;
+    private TextField tf_PlayersCardAmount, tf_OpponentsCardAmount, tf_PlayerTurn;
 
     // Constants for the game
     public static final int MAX_PLAYERS = 2; // Number of players in the game
@@ -52,11 +55,10 @@ public class UnoController {
     private CardColor selectedColor; // The color selected by the player from a wild card
     private boolean wildToggle = false; // Toggles the wild card action
     private boolean unoCalled = false; // Tracks if the active player called UNO
-    private int playerTurn = 1;
-    private int round = 1;
-
     private Stage primaryStage;
     private Scene StartScene; // Reference to the start scene
+    private Queue<String> notificationQueue = new LinkedList<>();
+    private boolean isDisplayingNotification = false; // Flag to check if a notification is being displayed
 
 
     /**
@@ -82,21 +84,29 @@ public class UnoController {
      * - Updates the game UI to reflect the initial game state.
      */
     public void startGame() {
-        System.out.println("game started");
+        updatePlayerTurnNotification("UNO - Game Started!");
         deck.reset();
         deck.shuffle();
 
         //loop through all players and deal them 7 cards
         for (int i = 0; i < MAX_PLAYERS; i++) {
-            players[i] = new Player(false);
+            players[i] = new Player(false, "Player " + (i + 1));
 
             for (int j = 0; j < 7; j++) // Each player gets exactly 7 cards
                 players[i].addCard(deck.drawCard());
         }
 
-        deck.addToDiscardPile(deck.drawCard()); // Add 1 card to discard pile.
+//        Card firstCard;
+//        do {
+//            firstCard = deck.drawCard();
+//        } while (firstCard.getType() != CardType.NUMBER); // Ensure the starting card is a number or wild card
+//
+//        deck.addToDiscardPile(firstCard);
+        deck.addToDiscardPile(deck.drawCard());
 
         activePlayer = new Random().nextInt(MAX_PLAYERS);
+        String startText = "Player " + (activePlayer + 1) + " goes First!";
+        updatePlayerTurnNotification(startText);
         updateUI();
     }
 
@@ -121,8 +131,11 @@ public class UnoController {
             for (int i = 0; i < 2; i++) {
                 players[activePlayer].addCard(deck.drawCard());
             }
+            String penaltyText = "Player " + (activePlayer + 1) + " drew 2 cards!";
+            updatePlayerTurnNotification(penaltyText);
         } else if (players[activePlayer].getHand().isEmpty()) {
-            System.out.println("Player has won!");
+            String winText = "Player " + (activePlayer + 1) + " has won the game!";
+            updatePlayerTurnNotification(winText);
 
             // Switch to the start scene
             if (primaryStage != null && StartScene != null) {
@@ -139,10 +152,14 @@ public class UnoController {
         if (deck.isEmpty()) {
             deck.refillFromDiscardPile();
             deck.shuffle();
+            String refillText = "Deck refilled from discard pile!";
+            updatePlayerTurnNotification(refillText);
         }
 
         activePlayer = getNextPlayer();
         playerCardIndexStart = 0;
+        updatePlayerTurnNotification("Player " + (activePlayer + 1) + "'s Turn!");
+
         updateUI();
     }
 
@@ -226,9 +243,7 @@ public class UnoController {
      * - Calls the `swapPlayers` method to transition to the next player's turn.
      */
     private void toggleWildAction() {
-        updateUI();
         wildToggle = !wildToggle;
-        System.out.println("Toggling wild action. Current state: " + wildToggle);
 
         // Show or hide the color selection buttons
         button_Wildcard_Blue.setVisible(wildToggle);
@@ -236,23 +251,21 @@ public class UnoController {
         button_Wildcard_Red.setVisible(wildToggle);
         button_Wildcard_Yellow.setVisible(wildToggle);
 
-        // Disable or enable the color selection buttons
+        // Enable or disable interaction with the buttons
         button_Wildcard_Blue.setDisable(!wildToggle);
         button_Wildcard_Green.setDisable(!wildToggle);
         button_Wildcard_Red.setDisable(!wildToggle);
         button_Wildcard_Yellow.setDisable(!wildToggle);
 
-        // Disable or enable the card images to prevent playing other cards
+        // Disable or enable the deck and card images to prevent unintended actions
         image_Card1.setDisable(wildToggle);
         image_Card2.setDisable(wildToggle);
         image_Card3.setDisable(wildToggle);
         image_Card4.setDisable(wildToggle);
         image_Card5.setDisable(wildToggle);
-
-        // Disable or enable the deck to prevent drawing cards
         image_BackDeck.setDisable(wildToggle);
-        swapPlayers(); // Move to the next player's turn
     }
+
 
     /**
      * Determines if the given card can be played based on the UNO game rules and
@@ -334,8 +347,8 @@ public class UnoController {
         }
 
         image_Deck.setImage(deck.getTopCard().getImage()); // Update the top card in the discard pile
-        tf_PlayersCardAmount.setText(String.valueOf(players[activePlayer].getHand().size())); // Update the card count
-        tf_OpponentsCardAmount.setText(String.valueOf(players[(activePlayer + 1) % MAX_PLAYERS].getHand().size())); // Update the opponent's card count
+        tf_PlayersCardAmount.setText(players[activePlayer].getName() + " : " + players[activePlayer].getHand().size()); // Update the active player's card count and name
+        tf_OpponentsCardAmount.setText(players[(activePlayer + 1) % MAX_PLAYERS].getName() + " : " + players[(activePlayer + 1) % MAX_PLAYERS].getHand().size()); // Update the opponent's card count and name
 
         // Show or hide the "Call UNO" button based on the active player's card count
         if (players[activePlayer].getHand().size() == 2) { // Show the button if the player has 2 cards
@@ -345,6 +358,56 @@ public class UnoController {
             button_CallUNO.setVisible(false);
             button_CallUNO.setDisable(true);
         }
+    }
+
+    private void updatePlayerTurnNotification(String message) {
+        notificationQueue.add(message); // Add the new message to the queue
+        System.out.println(message);
+        displayNextNotification(); // Try to display the next notification
+    }
+
+    /**
+     * Displays the next notification message from the notification queue if available,
+     * ensuring sequential and non-overlapping notifications. This method uses a delay
+     * mechanism to allow messages to be shown one at a time.
+     *
+     * Functional Details:
+     * - Checks if a notification is currently being displayed or if the queue is empty.
+     *   If either is true, the method returns without any further action.
+     * - Retrieves the next notification message from the queue and updates the
+     *   `tf_PlayerTurn` label on the JavaFX application thread to display the message.
+     * - Introduces a delay of 500 milliseconds to allow the message to remain visible before
+     *   fetching the next notification from the queue.
+     * - Ensures proper state management by resetting the `isDisplayingNotification` flag
+     *   after the delay, enabling subsequent notifications to be processed.
+     *
+     * Error Handling:
+     * - Catches and logs any `InterruptedException` encountered during the delay period.
+     */
+    private void displayNextNotification() {
+        if (isDisplayingNotification || notificationQueue.isEmpty()) {
+            return; // If already displaying a message or the queue is empty, return
+        }
+
+        isDisplayingNotification = true; // Set the flag to indicate a message is being displayed
+
+        Platform.runLater(() -> {
+            String message = notificationQueue.poll(); // Retrieve the next message
+            tf_PlayerTurn.setText(message);
+            System.out.println(message);
+
+            // Set a delay before displaying the next message
+            new Thread(() -> {
+                try {
+                    Thread.sleep(500); // Delay for .5 seconds
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    isDisplayingNotification = false; // Reset the flag
+                    displayNextNotification(); // Display the next message
+                }
+            }).start();
+        });
     }
 
     /**
@@ -380,16 +443,19 @@ public class UnoController {
      * - Transitions to the next player's turn by calling the swapPlayers method.
      */
     private void finishWildAction() {
-        // Ensure buttons are hidden after the action
         if (wildToggle) {
             toggleWildAction(); // Hide the color selection buttons
         }
 
         Card topCard = deck.getTopCard();
         topCard.setCardColor(selectedColor); // Apply the selected color to the wild card
-        System.out.println("Wild card color set to: " + selectedColor);
+        String colorText = "COLOR: " + selectedColor.toString();
+        updatePlayerTurnNotification(colorText); // Notify the user of the selected color
+        System.out.println(colorText);
 
-        swapPlayers(); // Move to the next player's turn
+        // Move to the next player's turn immediately
+        activePlayer = getNextPlayer(); // Move to the next player
+        updateUI(); // Refresh the UI
     }
 
 
@@ -410,7 +476,38 @@ public class UnoController {
         button_Wildcard_Green.setOnAction(_ -> onColorGreen());
         button_Wildcard_Red.setOnAction(_ -> onColorRed());
         button_Wildcard_Yellow.setOnAction(_ -> onColorYellow());
+        tf_PlayerTurn.setEditable(false);
+
+        // Add hover effects for card images
+        addHoverEffectToImageView(image_Card1);
+        addHoverEffectToImageView(image_Card2);
+        addHoverEffectToImageView(image_Card3);
+        addHoverEffectToImageView(image_Card4);
+        addHoverEffectToImageView(image_Card5);
+        addHoverEffectToImageView(image_Deck);
+        addHoverEffectToImageView(image_BackDeck);
+
+        // Add hover effects for buttons
+        addHoverEffectToButton(button_RotateLeft);
+        addHoverEffectToButton(button_RotateRight);
+        addHoverEffectToButton(button_CallUNO);
+        addHoverEffectToButton(button_Wildcard_Blue);
+        addHoverEffectToButton(button_Wildcard_Green);
+        addHoverEffectToButton(button_Wildcard_Red);
+        addHoverEffectToButton(button_Wildcard_Yellow);
     }
+
+
+    private void addHoverEffectToImageView(ImageView imageView) {
+        imageView.setOnMouseEntered(e -> imageView.setStyle("-fx-effect: dropshadow(gaussian, yellow, 10, 0.5, 0, 0);"));
+        imageView.setOnMouseExited(e -> imageView.setStyle("-fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0);"));
+    }
+
+    private void addHoverEffectToButton(Button button) {
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: black; -fx-text-fill: yellow; -fx-border-color: yellow; -fx-border-width: 3;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
+    }
+
 
     @FXML
     public void onCardClick1() { handleCardPlay(0); } // Handle card play for each card slot
@@ -446,27 +543,36 @@ public class UnoController {
 
     @FXML
     public void onCallUNO() {
+        String unoText;
         if (players[activePlayer].getHand().size() == 2) {
-            unoCalled = true; // Mark that the player called UNO
-            System.out.println("UNO called!");
+            unoCalled = true;
+            unoText = "Player " + (activePlayer + 1) + " called UNO!";
         } else {
-            System.out.println("You can only call UNO when you have 2 cards!");
+            unoText = "Player " + (activePlayer + 1) + " cannot call UNO!";
         }
+        updatePlayerTurnNotification(unoText);
     }
 
+
     @FXML
-    public void onDrawCard() { // Draw a card from the deck
+    public void onDrawCard() {
         if (!deck.isEmpty()) {
+            String drawText;
             if (players[activePlayer].getForceDraw() > 0) {
                 for (int i = 0; i < players[activePlayer].getForceDraw(); i++) {
-                    players[activePlayer].addCard(deck.drawCard()); // Draw the forced amount of cards at once
+                    players[activePlayer].addCard(deck.drawCard());
                 }
-                players[activePlayer].setForceDraw(0); // Reset how many the player must draw
-                players[getNextPlayer()].setForceDraw(0); // Reset both players, this handles the case of stacking draw2
-            } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced to draw
+                drawText = "Player " + (activePlayer + 1) + " drew " + players[activePlayer].getForceDraw() + " cards!";
+                players[activePlayer].setForceDraw(0);
+            } else {
+                players[activePlayer].addCard(deck.drawCard());
+                drawText = "Player " + (activePlayer + 1) + " drew a card!";
+            }
+            updatePlayerTurnNotification(drawText);
             swapPlayers();
         } else {
-            System.out.println("Deck is empty!");
+            String errorText = "The deck is empty!";
+            updatePlayerTurnNotification(errorText);
         }
     }
 

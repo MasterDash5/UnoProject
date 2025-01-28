@@ -18,12 +18,14 @@
             </font>
         </Button>
         <Button fx:id="playervsbot" layoutX="389.0" layoutY="161.0" mnemonicParsing="false"
-                prefHeight="101.0" prefWidth="152.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"
+                prefHeight="101.0" prefWidth="152.0"
+                style="-fx-background-color: gray; -fx-text-fill: lightgray; -fx-border-color: white; -fx-border-width: 2;"
                 text="Player vs Bot">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
+
         <Text fill="#ecd407" layoutX="210.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0"
               text="      UNO!" wrappingWidth="179.4700164794922">
             <font>
