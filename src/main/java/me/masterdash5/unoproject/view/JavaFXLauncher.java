@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import me.masterdash5.unoproject.controller.StartController;
+import me.masterdash5.unoproject.controller.UnoController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +31,10 @@ public class JavaFXLauncher extends Application {
         StartController startController = startLoader.getController();
         startController.setPrimaryStage(primaryStage);
         startController.setUnoGameScene(unoScene);
+
+        UnoController unoController = unoLoader.getController();
+        unoController.setPrimaryStage(primaryStage);
+        unoController.setStartScene(startScene);
     }
 
 }

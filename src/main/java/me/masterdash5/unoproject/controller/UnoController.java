@@ -52,9 +52,11 @@ public class UnoController {
     private CardColor selectedColor; // The color selected by the player from a wild card
     private boolean wildToggle = false; // Toggles the wild card action
     private boolean unoCalled = false; // Tracks if the active player called UNO
+    private int playerTurn = 1;
+    private int round = 1;
 
     private Stage primaryStage;
-    private Scene startScene; // Reference to the start scene
+    private Scene StartScene; // Reference to the start scene
 
 
     /**
@@ -119,12 +121,12 @@ public class UnoController {
             for (int i = 0; i < 2; i++) {
                 players[activePlayer].addCard(deck.drawCard());
             }
-        } else if (players[activePlayer].getHand().size() == 0) {
+        } else if (players[activePlayer].getHand().isEmpty()) {
             System.out.println("Player has won!");
 
             // Switch to the start scene
-            if (primaryStage != null && startScene != null) {
-                primaryStage.setScene(startScene);
+            if (primaryStage != null && StartScene != null) {
+                primaryStage.setScene(StartScene);
                 primaryStage.setTitle("UNO - Main Menu");
             } else {
                 System.err.println("PrimaryStage or StartScene is not set!");
@@ -482,5 +484,13 @@ public class UnoController {
             updateUI();
         }
     }
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void setStartScene(Scene StartScene) {
+        this.StartScene = StartScene;
+    }
+
 
 }
