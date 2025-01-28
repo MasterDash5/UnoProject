@@ -344,7 +344,7 @@ public class UnoController {
                 for (int i = 0; i < players[activePlayer].getForceDraw(); i++) {
                     players[activePlayer].addCard(deck.drawCard()); // Draw the forced amount of cards at once
                 }
-                players[activePlayer].setForceDraw(0); // Reset how many the player must draw
+                players[activePlayer].setForceDraw(0);// Reset how many the player must draw
             } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced to draw
             swapPlayers();
         } else {
