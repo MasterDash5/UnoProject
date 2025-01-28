@@ -461,7 +461,7 @@ public class UnoController {
                     players[activePlayer].addCard(deck.drawCard()); // Draw the forced amount of cards at once
                 }
                 players[activePlayer].setForceDraw(0); // Reset how many the player must draw
-                players[getNextPlayer()].setForceDraw(0);  // Reset both players, this handles the case of stacking draw2
+                players[getNextPlayer()].setForceDraw(0); // Reset both players, this handles the case of stacking draw2
             } else players[activePlayer].addCard(deck.drawCard()); // Draw normally if the player was not forced to draw
             swapPlayers();
         } else {
