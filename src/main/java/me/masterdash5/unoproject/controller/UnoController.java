@@ -185,6 +185,10 @@ public class UnoController {
     }
 
 
+    public Deck getDeck() {
+        return deck;
+    }
+
 
     /**
      * Determines the next player's turn in the game by calculating the next player index
@@ -297,7 +301,7 @@ public class UnoController {
      *             game state
      * @return true if the card is valid to play, false otherwise
      */
-    private boolean isValidPlay(Card card) {
+    public boolean isValidPlay(Card card) {
         Card top = deck.getTopCard(); // Get the top card from the discard pile
 
         if (players[activePlayer].getForceDraw() > 0) // Forced draw active
