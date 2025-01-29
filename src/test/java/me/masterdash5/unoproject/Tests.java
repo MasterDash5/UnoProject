@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class tests extends ApplicationTest {
+class Tests extends ApplicationTest {
 
     private UnoController controller;
 
@@ -23,31 +23,28 @@ class tests extends ApplicationTest {
     @BeforeEach
     void setUp() {
         controller = new UnoController();
-        controller.startGame();
         controller.getDeck().addToDiscardPile(new Card_Number(CardColor.RED, 5));
     }
 
     @Test
     void testIsValidPlay_SameColor() {
-        controller.startGame();
-        controller.getDeck().addToDiscardPile(new Card_Number(CardColor.RED, 5));
         Card redCard = new Card_Number(CardColor.RED, 7);
-        assertTrue(controller.isValidPlay(redCard));
+
+        assertTrue(controller.isValidPlay(redCard, false));
     }
 
     @Test
     void testIsValidPlay_DifferentColorSameNumber() {
-        controller.startGame();
-        controller.getDeck().addToDiscardPile(new Card_Number(CardColor.RED, 5));
         Card blueCard = new Card_Number(CardColor.BLUE, 5);
-        assertTrue(controller.isValidPlay(blueCard));
+
+        assertTrue(controller.isValidPlay(blueCard, false));
     }
 
     @Test
     void testIsValidPlay_InvalidCard() {
-        controller.startGame();
-        controller.getDeck().addToDiscardPile(new Card_Number(CardColor.RED, 5));
         Card blueCard = new Card_Number(CardColor.BLUE, 8);
-        assertFalse(controller.isValidPlay(blueCard));
+
+        assertFalse(controller.isValidPlay(blueCard, false));
     }
+
 }

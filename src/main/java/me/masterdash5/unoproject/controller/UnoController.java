@@ -218,7 +218,7 @@ public class UnoController {
 
         Card selectedCard = playerHand.get(absoluteIndex);
 
-        if (!isValidPlay(selectedCard)) return false; // Card couldn't be played.
+        if (!isValidPlay(selectedCard, true)) return false; // Card couldn't be played.
 
         playerHand.remove(absoluteIndex); // Remove the card from the player's hand
         deck.addToDiscardPile(selectedCard); // Add to discard pile
@@ -301,10 +301,10 @@ public class UnoController {
      *             game state
      * @return true if the card is valid to play, false otherwise
      */
-    public boolean isValidPlay(Card card) {
+    public boolean isValidPlay(Card card, boolean forceDraw) {
         Card top = deck.getTopCard(); // Get the top card from the discard pile
 
-        if (players[activePlayer].getForceDraw() > 0) // Forced draw active
+        if (forceDraw && players[activePlayer].getForceDraw() > 0) // Forced draw active
             return card.getType() == CardType.DRAW2 && top.getType() != CardType.WILD4; // Allowing stacking of draw2 but not allowing play otherwise
 
         if (card.getType() == CardType.WILD || card.getType() == CardType.WILD4) // Wild cards
